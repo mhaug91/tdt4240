@@ -3,10 +3,11 @@ package progark.gruppe13.colorgame;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.os.Bundle;
 import progark.gruppe13.colorgame.util.States;
 
-public class main extends Activity {
+public class main extends Activity implements Start_menu.OnFragmentInteractionListener {
     /**
      * Called when the activity is first created.
      */
@@ -32,6 +33,11 @@ public class main extends Activity {
                 break;
         }
 
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
