@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.net.Uri;
@@ -43,6 +44,9 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 fragmentTransaction.commit();
             case CAMERA_STATE:
                 Log.i("kamera", "kamerastate");
+                Intent intent = new Intent("progark.gruppe13.colorgame.CameraActivity");
+                startActivity(intent);
+                finish();
         }
 
 
