@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+
 import progark.gruppe13.colorgame.util.States;
 
 public class main extends Activity implements GameState.OnFragmentInteractionListener {
@@ -17,7 +19,7 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.changeState(States.STARTMENU);
+        this.changeState(States.MARTIN_MENU);
     }
 
 
@@ -31,14 +33,29 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
                 break;
+
             case JOINGAME:
                 currentState = new Start_menu();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
                 break;
+            
+            /*case NEW_GAME_MENU:
+                currentState = new New_game_menu();
+                fragmentTransaction.replace(android.R.id.content, currentState);
+                fragmentTransaction.commit();
+                */
+            case MARTIN_MENU:
+                currentState = new Martin_menu();
+                fragmentTransaction.replace(android.R.id.content, currentState);
+                fragmentTransaction.commit();
         }
 
 
+    }
+
+    public void onNewClick(View v){
+        changeState(States.MARTIN_MENU);
     }
 
     @Override
