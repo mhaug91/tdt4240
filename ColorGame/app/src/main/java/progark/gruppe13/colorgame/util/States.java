@@ -6,5 +6,5 @@ package progark.gruppe13.colorgame.util;
 public enum States {
     STARTMENU,
     NEW_GAME_MENU,
-    MARTIN_MENU
+    CAMERA_STATE
 }

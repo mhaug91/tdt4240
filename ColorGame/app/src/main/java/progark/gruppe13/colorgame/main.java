@@ -3,6 +3,8 @@ package progark.gruppe13.colorgame;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,15 +40,28 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 currentState = new New_game_menu();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
+            case CAMERA_STATE:
+                Log.i("kamera", "kamerastate");
         }
 
 
     }
 
+    /** Check if this device has a camera */
+    private boolean checkCameraHardware(Context context) {
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
+    }
+
     public void onNewClick(View v){
         changeState(States.NEW_GAME_MENU);
     }
-    public void onStartGameClick(View v){changeState(States.STARTMENU);}
+    public void onStartGameClick(View v){changeState(States.CAMERA_STATE);}
 
     @Override
     public void onFragmentInteraction(Uri uri) {
