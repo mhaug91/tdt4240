@@ -20,7 +20,7 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.changeState(States.MARTIN_MENU);
+        this.changeState(States.STARTMENU);
     }
 
 
@@ -46,10 +46,6 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
                 */
-            case MARTIN_MENU:
-                currentState = new Martin_menu();
-                fragmentTransaction.replace(android.R.id.content, currentState);
-                fragmentTransaction.commit();
         }
 
 
@@ -58,9 +54,6 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
     public void clickHandler(View v){
 
         switch (v.getId()){
-            case R.id.newGame:
-                changeState(States.MARTIN_MENU);
-                break;
             case R.id.joinGame:
                 changeState(States.JOINGAME);
                 break;

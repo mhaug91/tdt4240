@@ -6,6 +6,5 @@ package progark.gruppe13.colorgame.util;
 public enum States {
     STARTMENU,
     JOINGAME,
-    NEW_GAME_MENU,
-    MARTIN_MENU
+    NEW_GAME_MENU
 }
