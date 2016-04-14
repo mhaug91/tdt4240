@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/joinGame"
         android:text="Join Game"
-        android:layout_below="@+id/newGame"/>
+        android:layout_below="@+id/newGame"
+        android:onClick="clickHandler"/>
 
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import progark.gruppe13.colorgame.util.States;
@@ -39,7 +40,7 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
                 break;
-            
+
             /*case NEW_GAME_MENU:
                 currentState = new New_game_menu();
                 fragmentTransaction.replace(android.R.id.content, currentState);
@@ -54,8 +55,16 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
 
     }
 
-    public void onNewClick(View v){
-        changeState(States.MARTIN_MENU);
+    public void clickHandler(View v){
+
+        switch (v.getId()){
+            case R.id.newGame:
+                changeState(States.MARTIN_MENU);
+                break;
+            case R.id.joinGame:
+                changeState(States.JOINGAME);
+                break;
+        }
     }
 
     @Override
