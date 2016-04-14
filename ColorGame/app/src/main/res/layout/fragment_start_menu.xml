@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
@@ -9,5 +9,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="My life sucks"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/newGame"
+        android:text="New Game"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/joinGame"
+        android:text="Join Game"
+        android:layout_below="@+id/newGame"/>
 
-</FrameLayout>
+
+</RelativeLayout>

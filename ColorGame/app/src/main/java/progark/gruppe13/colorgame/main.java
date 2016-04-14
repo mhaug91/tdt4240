@@ -9,7 +9,7 @@ import android.view.View;
 
 import progark.gruppe13.colorgame.util.States;
 
-public class main extends Activity implements Start_menu.OnFragmentInteractionListener {
+public class main extends Activity implements GameState.OnFragmentInteractionListener {
     /**
      * Called when the activity is first created.
      */
