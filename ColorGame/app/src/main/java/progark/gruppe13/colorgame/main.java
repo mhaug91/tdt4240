@@ -46,19 +46,22 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
                 */
+            case NEW_GAME_MENU:
+                currentState = new New_game_menu();
+                fragmentTransaction.replace(android.R.id.content, currentState);
+                fragmentTransaction.commit();
         }
 
 
     }
 
-    public void clickHandler(View v){
 
-        switch (v.getId()){
-            case R.id.joinGame:
-                changeState(States.JOINGAME);
-                break;
-        }
+
+
+    public void onNewClick(View v){
+        changeState(States.NEW_GAME_MENU);
     }
+    public void onStartGameClick(View v){changeState(States.STARTMENU);}
 
     @Override
     public void onFragmentInteraction(Uri uri) {
