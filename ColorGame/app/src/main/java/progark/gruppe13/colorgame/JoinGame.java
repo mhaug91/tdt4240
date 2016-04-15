@@ -33,17 +33,18 @@ public class JoinGame extends GameState {
                              Bundle savedInstanceState) {
 
 
-
 // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_joingame, container, false);
 
         Button b = (Button) view.findViewById(R.id.buttonJoinSession);
-        b.setOnClickListener(new View.OnClickListener() {
+        /*b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onJoinSessionClick();
             }
         });
+        */
+
 
         return view;
 
