@@ -9,5 +9,6 @@ public enum States {
     NEW_GAME_MENU,
     CAMERA_STATE,
     ROUND_SUMMARY,
+    CAMERA_FRAGMENT_STATE,
     LOBBY
 }

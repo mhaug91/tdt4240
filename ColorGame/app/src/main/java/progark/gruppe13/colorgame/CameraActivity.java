@@ -7,10 +7,15 @@ import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,13 +30,34 @@ import progark.gruppe13.colorgame.R;
 /**
  * Created by mac on 14.04.2016.
  */
+
+
 public class CameraActivity extends Activity {
 
     private Camera mCamera;
     private CameraPreview mPreview;
 
+    TextView timerTextView;
+    long startTime = 0;
+
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
+
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            long millis = System.currentTimeMillis() - startTime;
+            int seconds = (int) (millis / 1000);
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            timerTextView.setText(String.format("%d:%02d", minutes, seconds));
+
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +71,13 @@ public class CameraActivity extends Activity {
         mPreview = new CameraPreview(this, mCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
+        //timerTextView = (TextView) findViewById(R.id.timerTextView);
+        timerTextView = new TextView(this);
+        timerTextView.setText("Timer");
+        timerTextView.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        preview.addView(timerTextView);
         // Add a listener to the Capture button
         Button captureButton = (Button) findViewById(R.id.button_capture);
         captureButton.setOnClickListener(
@@ -56,6 +89,28 @@ public class CameraActivity extends Activity {
                     }
                 }
         );
+        //timerTextView = (TextView) findViewById(R.id.timerTextView);
+       // FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+       //((FrameLayout) findViewById(R.id.camera_preview)).addView(timerTextView);
+
+
+        Button b = (Button) findViewById(R.id.button);
+        b.setText("start");
+        b.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Button b = (Button) v;
+                if (b.getText().equals("stop")) {
+                    timerHandler.removeCallbacks(timerRunnable);
+                    b.setText("start");
+                } else {
+                    startTime = System.currentTimeMillis();
+                    timerHandler.postDelayed(timerRunnable, 0);
+                    b.setText("stop");
+                }
+            }
+        });
     }
 
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
@@ -123,6 +178,9 @@ public class CameraActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+        timerHandler.removeCallbacks(timerRunnable);
+        Button b = (Button)findViewById(R.id.button);
+        b.setText("start");
         releaseCamera();              // release the camera immediately on pause event
     }
 
