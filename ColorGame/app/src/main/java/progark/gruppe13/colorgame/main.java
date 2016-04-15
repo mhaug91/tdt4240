@@ -89,6 +89,7 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
 
     public void onStartGameClick(View v){changeState(States.CAMERA_STATE);}
     public void onJoinClick(View v){changeState(States.JOINGAME);}
+    //public void onJoinSessionClick(View v){changeState(States.LOBBY);}
 
     @Override
     public void onFragmentInteraction(Uri uri) {
