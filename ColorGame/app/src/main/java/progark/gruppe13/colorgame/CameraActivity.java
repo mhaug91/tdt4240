@@ -95,19 +95,19 @@ public class CameraActivity extends Activity {
 
 
         Button b = (Button) findViewById(R.id.button);
-        b.setText("start");
+        b.setText("start timer");
         b.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Button b = (Button) v;
-                if (b.getText().equals("stop")) {
+                if (b.getText().equals("stop timer")) {
                     timerHandler.removeCallbacks(timerRunnable);
-                    b.setText("start");
+                    b.setText("start timer");
                 } else {
                     startTime = System.currentTimeMillis();
                     timerHandler.postDelayed(timerRunnable, 0);
-                    b.setText("stop");
+                    b.setText("stop timer");
                 }
             }
         });
