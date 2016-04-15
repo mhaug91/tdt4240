@@ -25,5 +25,4 @@
         android:layout_below="@+id/newGame"
         android:onClick="onJoinClick" />
 
-
 </RelativeLayout>
