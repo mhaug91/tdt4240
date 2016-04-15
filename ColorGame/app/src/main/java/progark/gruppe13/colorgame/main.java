@@ -78,7 +78,7 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
     public void onNewClick(View v){
         changeState(States.NEW_GAME_MENU);
     }
-    public void onStartGameClick(View v){changeState(States.CAMERA_STATE);}
+    //public void onStartGameClick(View v){changeState(States.CAMERA_STATE);}
 
     @Override
     public void onFragmentInteraction(Uri uri) {
