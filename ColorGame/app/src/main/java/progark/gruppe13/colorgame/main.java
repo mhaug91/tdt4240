@@ -40,16 +40,11 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 break;
 
             case JOINGAME:
-                currentState = new Start_menu();
+                currentState = new JoinGame();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
                 break;
 
-            /*case NEW_GAME_MENU:
-                currentState = new New_game_menu();
-                fragmentTransaction.replace(android.R.id.content, currentState);
-                fragmentTransaction.commit();
-                */
             case NEW_GAME_MENU:
                 currentState = new New_game_menu();
                 fragmentTransaction.replace(android.R.id.content, currentState);
