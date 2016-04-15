@@ -54,6 +54,11 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 Intent intent = new Intent("progark.gruppe13.colorgame.CameraActivity");
                 startActivity(intent);
                 finish();
+            case ROUND_SUMMARY:
+                currentState = new RoundSummary();
+                fragmentTransaction.replace(android.R.id.content, currentState);
+                fragmentTransaction.commit();
+                break;
         }
 
 
@@ -83,12 +88,16 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
         return c; // returns null if camera is unavailable
     }
 
+    public void startMenu(){
+        changeState(States.STARTMENU);
+    }
     public void onNewClick(View v){
         changeState(States.NEW_GAME_MENU);
     }
 
     public void onStartGameClick(View v){changeState(States.CAMERA_STATE);}
     public void onJoinClick(View v){changeState(States.JOINGAME);}
+    public void roundSummary(View v){changeState((States.ROUND_SUMMARY));}
 
     @Override
     public void onFragmentInteraction(Uri uri) {
