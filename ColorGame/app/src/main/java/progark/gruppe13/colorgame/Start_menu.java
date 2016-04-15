@@ -48,7 +48,7 @@ public class Start_menu extends GameState {
 
 // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_start_menu, container, false);
-
+/*
         Button b = (Button) view.findViewById(R.id.buttonJoinGame);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,20 +56,21 @@ public class Start_menu extends GameState {
                 onJoinClick();
             }
         });
+*/
         return view;
 
 
 
     }
-
+/*
     public void onJoinClick(){
         Context context = getActivity().getApplicationContext();
         CharSequence text = "Hello toast!";
         int duration = Toast.LENGTH_SHORT;
-
         Toast toast = Toast.makeText(context, "HEI PÅ DEG", Toast.LENGTH_LONG);
         toast.show();
     }
+*/
 
 
     @Override
