@@ -8,5 +8,6 @@ public enum States {
     JOINGAME,
     NEW_GAME_MENU,
     CAMERA_STATE,
+    CAMERA_FRAGMENT_STATE,
     LOBBY
 }

@@ -49,11 +49,18 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 currentState = new New_game_menu();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
+                break;
             case CAMERA_STATE:
                 Log.i("kamera", "kamerastate");
                 Intent intent = new Intent("progark.gruppe13.colorgame.CameraActivity");
                 startActivity(intent);
                 finish();
+                break;
+            case CAMERA_FRAGMENT_STATE:
+                currentState = new Camera_Fragment();
+                fragmentTransaction.replace(android.R.id.content, currentState);
+                fragmentTransaction.commit();
+                break;
         }
 
 
@@ -87,8 +94,9 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
         changeState(States.NEW_GAME_MENU);
     }
 
-    public void onStartGameClick(View v){changeState(States.CAMERA_STATE);}
+    public void onStartGameClick(View v){changeState(States.CAMERA_FRAGMENT_STATE);}
     public void onJoinClick(View v){changeState(States.JOINGAME);}
+    public void onStartCameraActivityClick(View v){ changeState(States.CAMERA_STATE);}
     //public void onJoinSessionClick(View v){changeState(States.LOBBY);}
 
     @Override
