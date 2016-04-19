@@ -103,7 +103,11 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
 
     public void onStartGameClick(View v){changeState(States.CAMERA_FRAGMENT_STATE);}
     public void onJoinClick(View v){changeState(States.JOINGAME);}
+
     public void roundSummary(View v){changeState((States.ROUND_SUMMARY));}
+
+    public void onStartCameraActivityClick(View v){ changeState(States.CAMERA_STATE);}
+
     //public void onJoinSessionClick(View v){changeState(States.LOBBY);}
 
     @Override
