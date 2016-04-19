@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 /**
  * Created by jonmartin on 14.04.2016.
  */
 public class JoinGame extends GameState {
+
+    EditText sessionEdit;
 
     public static JoinGame newInstance() {
         JoinGame fragment = new JoinGame();
@@ -58,7 +61,15 @@ public class JoinGame extends GameState {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, "Max jobber med saken", Toast.LENGTH_LONG);
         toast.show();
+        //sessionEdit = (EditText)findViewById(R.id.sessionInputText).
+        joinSession();
+        }
+
+    private void joinSession() {
+        //
     }
+
+
 
 
 

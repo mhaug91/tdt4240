@@ -13,6 +13,7 @@
         android:layout_marginTop="170dp"
         android:layout_marginBottom="30dp"
         android:id="@+id/sessionInputText"
+        android:inputType="number"
         android:hint="SessionID"/>
     <Button
         android:layout_width="match_parent"
