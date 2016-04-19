@@ -12,14 +12,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="170dp"
         android:layout_marginBottom="30dp"
-        android:id="@+id/sessionInputText"
-        android:inputType="number"
-        android:hint="SessionID"/>
+        android:id="@+id/lobbyInputText"
+        android:hint="brukernavn"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sessionInputText"
-        android:id="@+id/buttonJoinSession"
-        android:text="Join Game"/>
+        android:layout_below="@+id/lobbyInputText"
+        android:id="@+id/joinGame"
+        android:text="JOIN!"/>
+    <ListView
+        android:id="@+id/userListview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
 
 </RelativeLayout>

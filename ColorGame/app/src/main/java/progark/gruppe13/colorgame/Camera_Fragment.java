@@ -1,6 +1,7 @@
 package progark.gruppe13.colorgame;
 
-import android.app.Activity;
+
+import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -9,13 +10,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,21 +25,23 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import progark.gruppe13.colorgame.CameraPreview;
-import progark.gruppe13.colorgame.R;
 
 /**
- * Created by mac on 14.04.2016.
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link Camera_Fragment#newInstance} factory method to
+ * create an instance of this fragment.
  */
+public class Camera_Fragment extends GameState {
 
-
-public class CameraActivity extends Activity {
-
-    private Camera mCamera;
-    private CameraPreview mPreview;
 
     TextView timerTextView;
     long startTime = 0;
+
+    private Camera mCamera;
+    private CameraPreview mPreview;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
@@ -59,27 +62,80 @@ public class CameraActivity extends Activity {
         }
     };
 
+    // TODO: Rename and change types and number of parameters
+    public static Camera_Fragment newInstance() {
+        Camera_Fragment fragment = new Camera_Fragment();
+        Bundle args = new Bundle();
+
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public Camera_Fragment() {
+        // Required empty public constructor
+    }
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.camera_layout);
+
+
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+// Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.camera_layout, container, false);
 
         // Create an instance of Camera
         mCamera = getCameraInstance();
         Log.i("ji", "Jiij");
         // Create our Preview view and set it as the content of our activity.
-        mPreview = new CameraPreview(this, mCamera);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        mPreview = new CameraPreview(getActivity(), mCamera);
+        //FrameLayout preview = (FrameLayout) getView().findViewById(R.id.camera_preview);
+        FrameLayout preview = (FrameLayout) view.findViewById(R.id.camera_preview);
         preview.addView(mPreview);
-        //timerTextView = (TextView) findViewById(R.id.timerTextView);
+
+        // --------------
+        // PRØVER Å LEGGE TIL EN TIMER OPPÅ KAMERA PREVIEW FELTET
+        /*timerTextView = (TextView) findViewById(R.id.timerTextView);
         timerTextView = new TextView(this);
         timerTextView.setText("Timer");
         timerTextView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         preview.addView(timerTextView);
+        --------------*/
+        //timerTextView = (TextView) findViewById(R.id.timerTextView);
+        // FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+        //((FrameLayout) findViewById(R.id.camera_preview)).addView(timerTextView);
+
+
+        Button b = (Button) view.findViewById(R.id.button);
+        b.setText("start");
+        b.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Button b = (Button) v;
+                if (b.getText().equals("stop")) {
+                    timerHandler.removeCallbacks(timerRunnable);
+                    b.setText("start");
+                } else {
+                    startTime = System.currentTimeMillis();
+                    timerHandler.postDelayed(timerRunnable, 0);
+                    b.setText("stop");
+                }
+            }
+        });
+
         // Add a listener to the Capture button
-        Button captureButton = (Button) findViewById(R.id.button_capture);
+        Button captureButton = (Button) view.findViewById(R.id.button_capture);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -89,29 +145,25 @@ public class CameraActivity extends Activity {
                     }
                 }
         );
-        //timerTextView = (TextView) findViewById(R.id.timerTextView);
-       // FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-       //((FrameLayout) findViewById(R.id.camera_preview)).addView(timerTextView);
+
+        return view;
 
 
-        Button b = (Button) findViewById(R.id.button);
-        b.setText("start timer");
-        b.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                Button b = (Button) v;
-                if (b.getText().equals("stop timer")) {
-                    timerHandler.removeCallbacks(timerRunnable);
-                    b.setText("start timer");
-                } else {
-                    startTime = System.currentTimeMillis();
-                    timerHandler.postDelayed(timerRunnable, 0);
-                    b.setText("stop timer");
-                }
-            }
-        });
     }
+
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void onEnter() {
+
+    }
+
+    /**HER SKILLES DET MELLOM NY OG GAMMEL KODE **/
 
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
@@ -175,14 +227,16 @@ public class CameraActivity extends Activity {
         return mediaFile;
     }
 
+
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         timerHandler.removeCallbacks(timerRunnable);
-        Button b = (Button)findViewById(R.id.button);
-        b.setText("start");
+       // Button b = (Button) findViewById(R.id.button);
+       // b.setText("start");
         releaseCamera();              // release the camera immediately on pause event
     }
+
 
     private void releaseCamera(){
         if (mCamera != null){
@@ -216,4 +270,6 @@ public class CameraActivity extends Activity {
     }
 
 
+
 }
+
