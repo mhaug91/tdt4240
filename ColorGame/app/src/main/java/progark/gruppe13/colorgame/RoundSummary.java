@@ -35,6 +35,7 @@ public class RoundSummary extends GameState{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_roundsummary, container, false);
 
+        //testliste, skal ikke være her
         ArrayList<String> testList = new ArrayList<String>();
         testList.add("en");
         testList.add("to");
@@ -42,6 +43,7 @@ public class RoundSummary extends GameState{
 
         TextView newtext = (TextView) view.findViewById(R.id.scoreList);
         newtext.setSingleLine(false);
+        //bytt til topFiveHighScoresList
         for (String id : testList){
             newtext.append(id);
             newtext.append("\n");

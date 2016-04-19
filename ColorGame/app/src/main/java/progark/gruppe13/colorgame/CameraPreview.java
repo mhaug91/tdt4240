@@ -81,6 +81,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+
     public static class main extends Activity implements GameState.OnFragmentInteractionListener {
         /**
          * Called when the activity is first created.
