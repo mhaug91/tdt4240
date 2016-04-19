@@ -6,7 +6,8 @@ import java.util.*;
  * The Client that can be run both as a console or a GUI
  */
 public class ServerHandler  {
-
+	
+	
 	// for I/O
 	private ObjectInputStream sInput;		// to read from the socket
 	private ObjectOutputStream sOutput;		// to write on the socket
@@ -21,12 +22,14 @@ public class ServerHandler  {
 		this.server = server;
 		this.port = port;
 		this.username = username;
+		
+		if (!this.start()){
+			return;
+		}
 	}
 	
-	/*
-	 * To start the dialog
-	 */
-	public boolean start() {
+	//Connects to the server
+	private boolean start() {
 		// try to connect to the server
 		try {
 			socket = new Socket(server, port);
@@ -107,75 +110,29 @@ public class ServerHandler  {
 			
 	}
 	
-	void startGame(String username){
+	public void startGame(String username){
 		ColorMessage startMsg = new ColorMessage(ColorMessage.START, username);
 		sendMessage(startMsg);
 	}
 	
-	void sendUsername(String username){
+	public void sendUsername(String username){
 		ColorMessage nameMsg = new ColorMessage(ColorMessage.USERNAME, username);
 		sendMessage(nameMsg);
 	}
 	
-	void joinGame(String gameSession){
+	public void joinGame(String gameSession){
 		ColorMessage joinMsg = new ColorMessage(ColorMessage.JOIN, gameSession);
 		sendMessage(joinMsg);
 	}
 	
-	void beginRound(){
+	public void beginRound(){
 		ColorMessage beginMsg = new ColorMessage(ColorMessage.BEGIN);
 		sendMessage(beginMsg);
 	}
 	
-	void sendScore(int score){
+	public void sendScore(int score){
 		ColorMessage clrMsg = new ColorMessage(ColorMessage.COLOR, Integer.toString(score));
 		sendMessage(clrMsg);
-	}
-
-
-	public static void main(String[] args) {
-		// default values
-		int portNumber = 1501;
-		String serverAddress = "localhost";
-		String userName = "Anonymous";
-
-		// depending of the number of arguments provided we fall through
-		switch(args.length) {
-			// > javac Client username portNumber serverAddr
-			case 3:
-				serverAddress = args[2];
-			// > javac Client username portNumber
-			case 2:
-				try {
-					portNumber = Integer.parseInt(args[1]);
-				}
-				catch(Exception e) {
-					System.out.println("Invalid port number.");
-					System.out.println("Usage is: > java Client [username] [portNumber] [serverAddress]");
-					return;
-				}
-			// > javac Client username
-			case 1: 
-				userName = args[0];
-			// > java Client
-			case 0:
-				break;
-			// invalid number of arguments
-			default:
-				System.out.println("Usage is: > java Client [username] [portNumber] {serverAddress]");
-			return;
-		}
-		// create the Client object
-		ServerHandler serverHandler = new ServerHandler(serverAddress, portNumber, userName);
-		// test if we can start the connection to the Server
-		// if it failed nothing we can do
-		if(!serverHandler.start())
-			return;
-		
-		serverHandler.startGame("LeifOve");
-		serverHandler.beginRound();
-		serverHandler.sendScore(8008);
-		
 	}
 
 	/*
