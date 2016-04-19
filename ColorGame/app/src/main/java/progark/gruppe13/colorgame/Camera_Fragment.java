@@ -103,8 +103,8 @@ public class Camera_Fragment extends GameState {
 
         // --------------
         // PRØVER Å LEGGE TIL EN TIMER OPPÅ KAMERA PREVIEW FELTET
-        /*timerTextView = (TextView) findViewById(R.id.timerTextView);
-        timerTextView = new TextView(this);
+        timerTextView = (TextView) view.findViewById(R.id.timerTextView);
+        /*timerTextView = new TextView(this);
         timerTextView.setText("Timer");
         timerTextView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
