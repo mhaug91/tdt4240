@@ -4,6 +4,8 @@ package progark.gruppe13.colorgame;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,6 +47,8 @@ public class Camera_Fragment extends GameState {
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
+
+    private Bitmap bm;
 
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
@@ -163,30 +167,36 @@ public class Camera_Fragment extends GameState {
 
     }
 
-    /**HER SKILLES DET MELLOM NY OG GAMMEL KODE **/
-
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
 
             File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+            Log.i("tag", "image length: " + data.length);
+            bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+
             if (pictureFile == null){
-                Log.d("hi", "Error creating media file, check storage permissions: " );
+                Log.d("TAG", "Error creating media file, check storage permissions: " );
                 return;
             }
-
+/*
             try {
+
                 FileOutputStream fos = new FileOutputStream(pictureFile);
                 fos.write(data);
                 fos.close();
+
             } catch (FileNotFoundException e) {
                 Log.d("TAG", "File not found: " + e.getMessage());
             } catch (IOException e) {
                 Log.d("TAG", "Error accessing file: " + e.getMessage());
             }
+            */
         }
     };
+
+
 
     /** Create a file Uri for saving an image or video */
     private static Uri getOutputMediaFileUri(int type){
@@ -197,7 +207,7 @@ public class Camera_Fragment extends GameState {
     private static File getOutputMediaFile(int type){
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
-
+        Log.i("Camera_fragment", "getoutputmediafile method");
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "MyCameraApp");
         // This location works best if you want the created images to be shared
