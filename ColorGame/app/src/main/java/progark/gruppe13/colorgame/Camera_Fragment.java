@@ -34,7 +34,6 @@ import java.util.Date;
  */
 public class Camera_Fragment extends GameState {
 
-
     private Camera mCamera;
     private CameraPreview mPreview;
 
@@ -59,8 +58,6 @@ public class Camera_Fragment extends GameState {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
 
@@ -92,20 +89,15 @@ public class Camera_Fragment extends GameState {
         );
 
         return view;
-
-
-
     }
 
 
     @Override
     public void update() {
-
     }
 
     @Override
     public void onEnter() {
-
     }
 
     /**HER SKILLES DET MELLOM NY OG GAMMEL KODE **/

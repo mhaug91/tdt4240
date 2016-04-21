@@ -54,6 +54,10 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 Intent intent = new Intent("progark.gruppe13.colorgame.CameraActivity");
                 startActivity(intent);
                 finish();
+            case COLOR_VIEWTEST:
+                currentState = new Color_view();
+                fragmentTransaction.replace(android.R.id.content, currentState);
+                fragmentTransaction.commit();
         }
 
 
@@ -89,6 +93,7 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
 
     public void onStartGameClick(View v){changeState(States.CAMERA_STATE);}
     public void onJoinClick(View v){changeState(States.JOINGAME);}
+    public void onAnalyzeClick(View v){changeState(States.COLOR_VIEWTEST);}
 
     @Override
     public void onFragmentInteraction(Uri uri) {
