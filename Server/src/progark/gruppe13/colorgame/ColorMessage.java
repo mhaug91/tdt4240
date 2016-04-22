@@ -1,3 +1,6 @@
+package progark.gruppe13.colorgame;
+
+
 import java.awt.Color;
 import java.io.*;
 import java.util.ArrayList;

@@ -20,7 +20,7 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
      */
 
     private static final String SERVER_IP = "10.22.42.127";
-    private static final int SERVER_PORT = 1501;
+    private static final int SERVER_PORT = 1502;
     private static final String DEFAULT_NAME = "Anonymous";
 
 

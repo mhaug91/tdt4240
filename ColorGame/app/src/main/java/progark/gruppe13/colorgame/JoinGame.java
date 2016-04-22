@@ -61,12 +61,12 @@ public class JoinGame extends GameState {
         String input = sessionEdit.getText().toString();
         Toast toast;
         if(input.matches("")){
-            toast = Toast.makeText(context, "Plz insert a session id to play", Toast.LENGTH_LONG);
+            toast = Toast.makeText(context, "Plz insert a username to start a game, dude", Toast.LENGTH_LONG);
             toast.show();
         }
         else{
-            toast = Toast.makeText(context, "Joining " + input + "...", Toast.LENGTH_LONG);
-            //ServerHandler mySH = new ServerHandler("10.22.42.127", 1501, "julenissen");
+            main.serverHandler.startGame(input);
+            toast = Toast.makeText(context, "Joining with username" + input + "...", Toast.LENGTH_LONG);
             toast.show();
             joinSession();
         }

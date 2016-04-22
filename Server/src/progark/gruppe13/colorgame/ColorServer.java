@@ -1,3 +1,6 @@
+package progark.gruppe13.colorgame;
+
+
 import java.awt.Color;
 import java.io.*;
 import java.net.*;
@@ -156,7 +159,7 @@ public class ColorServer {
 	 */ 
 	public static void main(String[] args) {
 		// start server on port 1500 unless a PortNumber is specified 
-		int portNumber = 1501;
+		int portNumber = 1502;
 		switch(args.length) {
 			case 1:
 				try {
@@ -239,6 +242,7 @@ public class ColorServer {
 					break;				
 				}
 				catch(ClassNotFoundException e2) {
+					display("class not found exception: " + e2);
 					break;
 				}
 
@@ -359,11 +363,15 @@ public class ColorServer {
 						writeMsg(new ColorMessage(ColorMessage.GAMESESSION, "Error: You are already connected to a game session"));
 					}
 					break;
+				default:
+					display("Default switch");
+					break;
 				}
 					
 			}
 			// remove myself from the arrayList containing the list of the
 			// connected Clients
+			display("Client thread while ended");
 			remove(id);
 			close();
 		}
@@ -389,6 +397,7 @@ public class ColorServer {
 		 * Write a String to the Client output stream
 		 */
 		private boolean writeMsg(ColorMessage msg) {
+			display("Writing message to client");
 			// if Client is still connected send the message to it
 			if(!socket.isConnected()) {
 				close();

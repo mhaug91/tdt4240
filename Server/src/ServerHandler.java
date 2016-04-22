@@ -5,7 +5,7 @@ import java.util.*;
 /*
  * The Client that can be run both as a console or a GUI
  */
-public class ServerHandler{
+public class ServerHandler extends AsyncTask  {
 	
 	
 	// for I/O
@@ -21,10 +21,55 @@ public class ServerHandler{
 	ServerHandler(String server, int port, String username) {
 		this.server = server;
 		this.port = port;
-		this.username = username;	
-		new AsyncConnect().execute();
+		this.username = username;
+		
+		this.run();
 	}
 	
+	//Connects to the server
+	@Override
+	protected void doInBackground() {
+		// try to connect to the server
+		try {
+			socket = new Socket(server, port);
+		} 
+		// if it failed not much I can so
+		catch(Exception ec) {
+			display("Error connectiong to server:" + ec);
+			return;
+		}
+		
+		String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
+		display(msg);
+	
+		/* Creating both Data Stream */
+		try
+		{
+			sInput  = new ObjectInputStream(socket.getInputStream());
+			sOutput = new ObjectOutputStream(socket.getOutputStream());
+		}
+		catch (IOException eIO) {
+			display("Exception creating new Input/output Streams: " + eIO);
+			return;
+		}
+
+		// creates the Thread to listen from the server 
+		new ListenFromServer().run();
+		// Send our username to the server this is the only message that we
+		// will send as a String. All other messages will be ChatMessage objects
+		try
+		{
+			sOutput.writeObject(username);
+		}
+		catch (IOException eIO) {
+			display("Exception doing login : " + eIO);
+			disconnect();
+			return;
+		}
+		// success we inform the caller that it worked
+		return;
+	}
+
 	/*
 	 * To send a message to the console or the GUI
 	 */
@@ -88,62 +133,15 @@ public class ServerHandler{
 		ColorMessage clrMsg = new ColorMessage(ColorMessage.COLOR, Integer.toString(score));
 		sendMessage(clrMsg);
 	}
-	
-	private class AsyncConnect extends AsyncTask<String, Void, String> {
-		
-		//Connects to the server
-		@Override
-		protected void doInBackground(String... args) {
-			// try to connect to the server
-			try {
-				socket = new Socket(server, port);
-			} 
-			// if it failed not much I can so
-			catch(Exception ec) {
-				display("Error connectiong to server:" + ec);
-				return;
-			}
-			
-			String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
-			display(msg);
-		
-			/* Creating both Data Stream */
-			try
-			{
-				sInput  = new ObjectInputStream(socket.getInputStream());
-				sOutput = new ObjectOutputStream(socket.getOutputStream());
-			}
-			catch (IOException eIO) {
-				display("Exception creating new Input/output Streams: " + eIO);
-				return;
-			}
-
-			// creates the Thread to listen from the server 
-			new ListenFromServer().execute();
-			// Send our username to the server this is the only message that we
-			// will send as a String. All other messages will be ChatMessage objects
-			try
-			{
-				sOutput.writeObject(username);
-			}
-			catch (IOException eIO) {
-				display("Exception doing login : " + eIO);
-				disconnect();
-				return;
-			}
-			// success we inform the caller that it worked
-			return;
-		}
-	}
 
 	/*
 	 * a class that waits for the message from the server and append them to the JTextArea
 	 * if we have a GUI or simply System.out.println() it in console mode
 	 */
-	private class ListenFromServer extends AsyncTask<String, Void, String> {
+	class ListenFromServer implements Runnable {
 		
 		@Override
-		protected void doInBackground(String... args) {
+		public void run() {
 			while(true) {
 				try {
 					ColorMessage cm = (ColorMessage) sInput.readObject();
@@ -155,6 +153,7 @@ public class ServerHandler{
 					case ColorMessage.START:
 						System.out.println("Successfully created a new game with game session ID: " + cm.getMessage().get(0));
 						break;
+					case ColorMessage.COLOR:
 						System.out.println("Round ended and scored received");
 						System.out.println(cm.getMessage().toString());
 						break;

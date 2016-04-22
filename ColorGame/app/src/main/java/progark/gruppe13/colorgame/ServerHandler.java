@@ -1,4 +1,5 @@
 package progark.gruppe13.colorgame;
+import android.graphics.Color;
 import android.os.AsyncTask;
 
 import java.net.*;
@@ -39,13 +40,19 @@ public class ServerHandler{
 	/*
 	 * To send a message to the server
 	 */
-	void sendMessage(ColorMessage msg) {
-		try {
-			sOutput.writeObject(msg);
+	private class SendMessage extends AsyncTask<ColorMessage, Void, String>{
+		@Override
+		protected String doInBackground(ColorMessage... msg) {
+			display("Sending message to server...");
+			try {
+				sOutput.writeObject(msg);
+			}
+			catch(IOException e) {
+				display("Exception writing to server: " + e);
+			}
+			return "Hallo";
 		}
-		catch(IOException e) {
-			display("Exception writing to server: " + e);
-		}
+
 	}
 
 	/*
@@ -69,28 +76,36 @@ public class ServerHandler{
 	}
 
 	public void startGame(String username){
+		display("Start game call received");
 		ColorMessage startMsg = new ColorMessage(ColorMessage.START, username);
-		sendMessage(startMsg);
+		try {
+			sOutput.writeObject(startMsg);
+		}
+		catch (IOException e){
+			display("Whaddapp though holmes");
+		}
+		display("DONE BWOI");
+		//new SendMessage().execute(startMsg);
 	}
 
 	public void sendUsername(String username){
 		ColorMessage nameMsg = new ColorMessage(ColorMessage.USERNAME, username);
-		sendMessage(nameMsg);
+		new SendMessage().execute(nameMsg);
 	}
 
 	public void joinGame(String gameSession){
 		ColorMessage joinMsg = new ColorMessage(ColorMessage.JOIN, gameSession);
-		sendMessage(joinMsg);
+		new SendMessage().execute(joinMsg);
 	}
 
 	public void beginRound(){
 		ColorMessage beginMsg = new ColorMessage(ColorMessage.BEGIN);
-		sendMessage(beginMsg);
+		new SendMessage().execute(beginMsg);
 	}
 
 	public void sendScore(int score){
 		ColorMessage clrMsg = new ColorMessage(ColorMessage.COLOR, Integer.toString(score));
-		sendMessage(clrMsg);
+		new SendMessage().execute(clrMsg);
 	}
 
 	private class AsyncConnect extends AsyncTask<Void, Void, String> {
@@ -105,7 +120,7 @@ public class ServerHandler{
 			// if it failed not much I can so
 			catch(Exception ec) {
 				display("Error connectiong to server:" + ec);
-				return "hei";
+				return ec.toString();
 			}
 
 			String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
@@ -119,7 +134,7 @@ public class ServerHandler{
 			}
 			catch (IOException eIO) {
 				display("Exception creating new Input/output Streams: " + eIO);
-				return "hei";
+				return eIO.toString();
 			}
 
 			// creates the Thread to listen from the server 
@@ -133,10 +148,10 @@ public class ServerHandler{
 			catch (IOException eIO) {
 				display("Exception doing login : " + eIO);
 				disconnect();
-				return "hei";
+				return eIO.toString();
 			}
 			// success we inform the caller that it worked
-			return "hei";
+			return "success";
 		}
 	}
 
@@ -145,7 +160,6 @@ public class ServerHandler{
 	 * if we have a GUI or simply System.out.println() it in console mode
 	 */
 	private class ListenFromServer extends AsyncTask<String, Void, String> {
-
 		@Override
 		protected String doInBackground(String... args) {
 			while(true) {
@@ -168,13 +182,14 @@ public class ServerHandler{
 
 				}
 				catch(IOException e) {
-					display("Server has close the connection: " + e);
+					display("Server has closed the connection: " + e);
 					break;
 				}
 				// can't happen with a String object but need the catch anyhow
 				catch(ClassNotFoundException e2) {
+					display("Class not found exception: " + e2);
 				}
-			}return "hei";
+			}return "success";
 		}
 	}
 }
