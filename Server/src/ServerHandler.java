@@ -5,7 +5,7 @@ import java.util.*;
 /*
  * The Client that can be run both as a console or a GUI
  */
-public class ServerHandler implements Runnable  {
+public class ServerHandler extends AsyncTask<String, Void, String>  {
 	
 	
 	// for I/O
@@ -23,14 +23,12 @@ public class ServerHandler implements Runnable  {
 		this.port = port;
 		this.username = username;
 		
-		if (!this.run()){
-			return;
-		}
+		this.run();
 	}
 	
 	//Connects to the server
 	@Override
-	private void run() {
+	protected Void doInBackground(String... args) {
 		// try to connect to the server
 		try {
 			socket = new Socket(server, port);
@@ -56,7 +54,7 @@ public class ServerHandler implements Runnable  {
 		}
 
 		// creates the Thread to listen from the server 
-		new ListenFromServer().start();
+		new ListenFromServer().run();
 		// Send our username to the server this is the only message that we
 		// will send as a String. All other messages will be ChatMessage objects
 		try
@@ -140,10 +138,10 @@ public class ServerHandler implements Runnable  {
 	 * a class that waits for the message from the server and append them to the JTextArea
 	 * if we have a GUI or simply System.out.println() it in console mode
 	 */
-	class ListenFromServer implements Runnable {
+	class ListenFromServer implements AsyncTask<String, Void, String> {
 		
 		@Override
-		public void run() {
+		protected void doInBackground(String... args) {
 			while(true) {
 				try {
 					ColorMessage cm = (ColorMessage) sInput.readObject();
