@@ -68,7 +68,7 @@ public class JoinGame extends GameState {
         }
         else{
             toast = Toast.makeText(context, "Joining " + input + "...", Toast.LENGTH_LONG);
-            ServerHandler mySH = new ServerHandler("192.168.43.83", 1501, "julenissen");
+            ServerHandler mySH = new ServerHandler("172.20.10.4", 1501, "julenissen");
             toast.show();
             joinSession();
         }
