@@ -3,6 +3,7 @@ package progark.gruppe13.colorgame;
 import android.content.Context;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,8 @@ public class JoinGame extends GameState {
 
     }
     public void onJoinSessionClick(){
+        Log.i("OIDA", "klikka her duuu..");
+        //ServerHandler mySH = new ServerHandler("127.0.0.1", 1501, "julenissen");
         Context context = getActivity().getApplicationContext();
         sessionEdit  = (EditText) view.findViewById(R.id.sessionInputText);
         String input = sessionEdit.getText().toString();
@@ -65,6 +68,7 @@ public class JoinGame extends GameState {
         }
         else{
             toast = Toast.makeText(context, "Joining " + input + "...", Toast.LENGTH_LONG);
+            ServerHandler mySH = new ServerHandler("10.22.42.127", 1501, "julenissen");
             toast.show();
             joinSession();
         }

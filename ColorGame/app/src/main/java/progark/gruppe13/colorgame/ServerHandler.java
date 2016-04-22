@@ -1,3 +1,6 @@
+package progark.gruppe13.colorgame;
+import android.os.AsyncTask;
+
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -22,7 +25,8 @@ public class ServerHandler{
 		this.server = server;
 		this.port = port;
 		this.username = username;
-		new AsyncConnect.execute();
+		new AsyncConnect().execute();
+		new ListenFromServer().execute();
 	}
 
 	/*
@@ -89,11 +93,11 @@ public class ServerHandler{
 		sendMessage(clrMsg);
 	}
 
-	private class AsyncConnect extends AsyncTask<String, Void, String> {
+	private class AsyncConnect extends AsyncTask<Void, Void, String> {
 
 		//Connects to the server
 		@Override
-		protected void doInBackground(String... args) {
+		protected String doInBackground(Void... args) {
 			// try to connect to the server
 			try {
 				socket = new Socket(server, port);
@@ -101,7 +105,7 @@ public class ServerHandler{
 			// if it failed not much I can so
 			catch(Exception ec) {
 				display("Error connectiong to server:" + ec);
-				return;
+				return "hei";
 			}
 
 			String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
@@ -115,11 +119,11 @@ public class ServerHandler{
 			}
 			catch (IOException eIO) {
 				display("Exception creating new Input/output Streams: " + eIO);
-				return;
+				return "hei";
 			}
 
 			// creates the Thread to listen from the server 
-			new ListenFromServer().execute();
+			//new ListenFromServer().execute();
 			// Send our username to the server this is the only message that we
 			// will send as a String. All other messages will be ChatMessage objects
 			try
@@ -129,10 +133,10 @@ public class ServerHandler{
 			catch (IOException eIO) {
 				display("Exception doing login : " + eIO);
 				disconnect();
-				return;
+				return "hei";
 			}
 			// success we inform the caller that it worked
-			return;
+			return "hei";
 		}
 	}
 
@@ -143,7 +147,7 @@ public class ServerHandler{
 	private class ListenFromServer extends AsyncTask<String, Void, String> {
 
 		@Override
-		protected void doInBackground(String... args) {
+		protected String doInBackground(String... args) {
 			while(true) {
 				try {
 					ColorMessage cm = (ColorMessage) sInput.readObject();
@@ -170,7 +174,7 @@ public class ServerHandler{
 				// can't happen with a String object but need the catch anyhow
 				catch(ClassNotFoundException e2) {
 				}
-			}
+			}return "hei";
 		}
 	}
 }
