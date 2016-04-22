@@ -7,6 +7,10 @@ import android.net.Uri;
 
 public abstract class GameState extends Fragment {
 
+    public void serverCallback(ColorMessage msg){
+        //Overridden by subclass
+    }
+
     private OnFragmentInteractionListener mListener;
     public abstract void update();
 

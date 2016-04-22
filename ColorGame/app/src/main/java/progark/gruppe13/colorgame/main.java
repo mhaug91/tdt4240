@@ -43,18 +43,21 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 currentState = new Start_menu();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
+                serverHandler.setListener(currentState);
                 break;
 
             case JOINGAME:
                 currentState = new JoinGame();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
+                serverHandler.setListener(currentState);
                 break;
 
             case NEW_GAME_MENU:
                 currentState = new New_game_menu();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
+                serverHandler.setListener(currentState);
                 break;
             case CAMERA_STATE:
                 Log.i("kamera", "kamerastate");
@@ -65,11 +68,13 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 currentState = new RoundSummary();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
+                serverHandler.setListener(currentState);
                 break;
             case CAMERA_FRAGMENT_STATE:
                 currentState = new Camera_Fragment();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
+                serverHandler.setListener(currentState);
                 break;
         }
 

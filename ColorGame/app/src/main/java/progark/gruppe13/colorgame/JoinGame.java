@@ -25,7 +25,7 @@ public class JoinGame extends GameState {
         fragment.setArguments(args);
         return fragment;
     }
-
+    
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

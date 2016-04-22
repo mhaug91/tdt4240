@@ -21,6 +21,8 @@ public class ServerHandler{
 	private String server, username;
 	private int port;
 
+	private GameState listener;
+
 
 	ServerHandler(String server, int port, String username) {
 		this.server = server;
@@ -28,6 +30,10 @@ public class ServerHandler{
 		this.username = username;
 		new AsyncConnect().execute();
 		new ListenFromServer().execute();
+	}
+
+	public void setListener(GameState listener){
+		this.listener = listener;
 	}
 
 	/*
@@ -165,20 +171,7 @@ public class ServerHandler{
 			while(true) {
 				try {
 					ColorMessage cm = (ColorMessage) sInput.readObject();
-
-					switch (cm.getType()) {
-						case ColorMessage.BEGIN:
-							System.out.println("Round began with color: " + cm.getColor().toString());
-							break;
-						case ColorMessage.START:
-							System.out.println("Successfully created a new game with game session ID: " + cm.getMessage().get(0));
-							break;
-						case ColorMessage.COLOR:
-							System.out.println("Round ended and scored received");
-							System.out.println(cm.getMessage().toString());
-							break;
-
-					}
+					listener.serverCallback(cm);
 
 				}
 				catch(IOException e) {
