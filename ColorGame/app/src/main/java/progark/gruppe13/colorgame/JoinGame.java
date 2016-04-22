@@ -25,7 +25,7 @@ public class JoinGame extends GameState {
         fragment.setArguments(args);
         return fragment;
     }
-    
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,10 @@ public class JoinGame extends GameState {
 
     }
 
+    @Override
+    public void serverCallback(ColorMessage msg){
 
+    }
 
     private void joinSession() {
         //koble til sesssion her

@@ -82,16 +82,8 @@ public class ServerHandler{
 	}
 
 	public void startGame(String username){
-		display("Start game call received");
 		ColorMessage startMsg = new ColorMessage(ColorMessage.START, username);
-		try {
-			sOutput.writeObject(startMsg);
-		}
-		catch (IOException e){
-			display("Whaddapp though holmes");
-		}
-		display("DONE BWOI");
-		//new SendMessage().execute(startMsg);
+		new SendMessage().execute(startMsg);
 	}
 
 	public void sendUsername(String username){
@@ -112,6 +104,11 @@ public class ServerHandler{
 	public void sendScore(int score){
 		ColorMessage clrMsg = new ColorMessage(ColorMessage.COLOR, Integer.toString(score));
 		new SendMessage().execute(clrMsg);
+	}
+
+	public void getUsernames(String gameID){
+		ColorMessage userMsg = new ColorMessage(ColorMessage.GETNAMES);
+		new SendMessage().execute(userMsg);
 	}
 
 	private class AsyncConnect extends AsyncTask<Void, Void, String> {

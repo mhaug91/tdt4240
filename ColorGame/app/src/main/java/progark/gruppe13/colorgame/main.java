@@ -25,7 +25,7 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
 
 
     private GameState currentState;
-    public static ServerHandler serverHandler = new ServerHandler(SERVER_IP, SERVER_PORT, DEFAULT_NAME);
+    public static final ServerHandler serverHandler = new ServerHandler(SERVER_IP, SERVER_PORT, DEFAULT_NAME);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

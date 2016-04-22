@@ -363,6 +363,16 @@ public class ColorServer {
 						writeMsg(new ColorMessage(ColorMessage.GAMESESSION, "Error: You are already connected to a game session"));
 					}
 					break;
+					
+				case ColorMessage.GETNAMES:
+					ColorMessage namesMsg = new ColorMessage(ColorMessage.GETNAMES);
+					for (ClientThread ct : clients){
+						if (ct.gameSession.equals(this.gameSession)){
+							namesMsg.addMessage(ct.username);
+						}
+					}
+					writeMsg(namesMsg);
+					break;
 				default:
 					display("Default switch");
 					break;
