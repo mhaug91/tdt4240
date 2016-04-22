@@ -307,6 +307,7 @@ public class ColorServer {
 				
 				//Joining an existing game
 				case ColorMessage.JOIN:
+					display("Join message received");
 					if (this.gameSession == null){
 						String joinSession = cm.getMessage().get(0);
 						for (String session : gameSessions){
@@ -320,6 +321,7 @@ public class ColorServer {
 						}
 					}
 					else{
+						display("Already joined a game");
 						writeMsg(new ColorMessage(ColorMessage.JOIN,"ERROR: Already joined a game"));
 					}
 					break;
