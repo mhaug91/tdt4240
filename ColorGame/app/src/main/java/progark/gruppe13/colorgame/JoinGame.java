@@ -37,11 +37,9 @@ public class JoinGame extends GameState {
                              Bundle savedInstanceState) {
 
 
-// Inflate the layout for this fragment
+        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_joingame, container, false);
-
         Button b = (Button) view.findViewById(R.id.buttonJoinSession);
-
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +66,7 @@ public class JoinGame extends GameState {
         }
         else{
             toast = Toast.makeText(context, "Joining " + input + "...", Toast.LENGTH_LONG);
-            ServerHandler mySH = new ServerHandler("10.22.42.127", 1501, "julenissen");
+            //ServerHandler mySH = new ServerHandler("10.22.42.127", 1501, "julenissen");
             toast.show();
             joinSession();
         }

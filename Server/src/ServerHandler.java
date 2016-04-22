@@ -22,7 +22,7 @@ public class ServerHandler{
 		this.server = server;
 		this.port = port;
 		this.username = username;	
-		new AsyncConnect.execute();
+		new AsyncConnect().execute();
 	}
 	
 	/*
@@ -155,7 +155,6 @@ public class ServerHandler{
 					case ColorMessage.START:
 						System.out.println("Successfully created a new game with game session ID: " + cm.getMessage().get(0));
 						break;
-					case ColorMessage.COLOR:
 						System.out.println("Round ended and scored received");
 						System.out.println(cm.getMessage().toString());
 						break;
