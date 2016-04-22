@@ -12,13 +12,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="170dp"
         android:layout_marginBottom="30dp"
-        android:id="@+id/sessionInputText"
+        android:id="@+id/sessionIdEdit"
         android:inputType="number"
         android:hint="SessionID"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sessionInputText"
+        android:layout_below="@+id/sessionIdEdit"
         android:id="@+id/buttonJoinSession"
         android:text="Join Game"/>
 

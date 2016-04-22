@@ -11,5 +11,6 @@ public enum States {
     ROUND_SUMMARY,
     CAMERA_FRAGMENT_STATE,
     LOBBY,
+    ENTERUSERNAME,
     TESTIMAGE//todo test!*************************
 }

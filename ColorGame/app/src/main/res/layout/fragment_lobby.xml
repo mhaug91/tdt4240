@@ -4,26 +4,24 @@
              android:layout_height="match_parent"
              tools:context="progark.gruppe13.colorgame.Start_menu">
 
-    <!-- TODO: Update blank fragment layout -->
 
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="170dp"
-        android:layout_marginBottom="30dp"
-        android:id="@+id/lobbyInputText"
-        android:hint="brukernavn"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lobbyInputText"
         android:id="@+id/joinGame"
         android:text="JOIN!"/>
+
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:text="Players in lobby:"
+              android:id="@+id/playersInLobbyText"
+    android:layout_below="@id/joinGame"/>
+
     <ListView
-        android:id="@+id/userListview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:id="@+id/userListview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+            android:layout_below="@id/playersInLobbyText" android:paddingTop="50dp" android:smoothScrollbar="true">
 
     </ListView>
 

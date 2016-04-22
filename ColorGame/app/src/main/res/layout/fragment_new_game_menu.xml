@@ -27,23 +27,15 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/editTextUsernameNewGame"
         android:layout_gravity="center_horizontal"
-        android:text="Skriv inn brukernavn" />
+        android:text="@string/enterUserNameString" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start camera fragment"
-        android:id="@+id/button2"
-        android:layout_gravity="center_horizontal"
-        android:onClick="onStartGameClick" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Start camera activity"
-        android:id="@+id/startCameraActivityButton"
+        android:text="@string/startGameString"
+        android:id="@+id/startGameButton"
         android:layout_gravity="center_horizontal"
         android:onClick="onStartCameraActivityClick" />
 </LinearLayout>

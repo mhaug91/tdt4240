@@ -7,4 +7,6 @@
     <string name="title_activity_main">main</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="enterUserNameString">Enter a user name</string>
+    <string name="startGameString">Start new game</string>
 </resources>

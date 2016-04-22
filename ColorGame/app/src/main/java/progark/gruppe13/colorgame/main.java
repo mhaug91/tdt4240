@@ -34,7 +34,7 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
     }
 
 
-    private void changeState(States toState){
+    public void changeState(States toState){
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -72,6 +72,12 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 break;
             case CAMERA_FRAGMENT_STATE:
                 currentState = new Camera_Fragment();
+                fragmentTransaction.replace(android.R.id.content, currentState);
+                fragmentTransaction.commit();
+                serverHandler.setListener(currentState);
+                break;
+            case ENTERUSERNAME:
+                currentState = new EnterUsername();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
                 serverHandler.setListener(currentState);
@@ -115,6 +121,8 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
     public void onStartGameClick(View v){changeState(States.CAMERA_FRAGMENT_STATE);}
 
     public void onJoinClick(View v){changeState(States.JOINGAME);}
+
+
 
     public void roundSummary(View v){changeState((States.ROUND_SUMMARY));}
 

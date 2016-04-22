@@ -39,7 +39,7 @@ public class ImageAnalysisTest extends GameState {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_image_test, container, false);
+        View view = inflater.inflate(R.layout.framgent_image_test, container, false);
 
 
         //ImageView img = (ImageView) view.findViewById(R.id.testImage);

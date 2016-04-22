@@ -2,7 +2,6 @@ package progark.gruppe13.colorgame;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +14,12 @@ import progark.gruppe13.colorgame.util.States;
 /**
  * Created by jonmartin on 14.04.2016.
  */
-public class JoinGame extends GameState {
+public class EnterUsername extends GameState {
     View view;
     EditText sessionEdit;
 
-    public static JoinGame newInstance() {
-        JoinGame fragment = new JoinGame();
+    public static EnterUsername newInstance() {
+        EnterUsername fragment = new EnterUsername();
         Bundle args = new Bundle();
 
         fragment.setArguments(args);
@@ -39,12 +38,12 @@ public class JoinGame extends GameState {
 
 
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_joingame, container, false);
-        Button b = (Button) view.findViewById(R.id.buttonJoinSession);
+        view = inflater.inflate(R.layout.fragment_enter_username, container, false);
+        Button b = (Button) view.findViewById(R.id.buttonConfirmUsername);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onJoinSessionClick();
+                onConfirmUsernameClick();
             }
         });
 
@@ -54,11 +53,9 @@ public class JoinGame extends GameState {
         //return inflater.inflate(R.layout.fragment_joingame, container, false);
 
     }
-    public void onJoinSessionClick(){
-        Log.i("OIDA", "klikka her duuu..");
-        //ServerHandler mySH = new ServerHandler("127.0.0.1", 1501, "julenissen");
+    public void onConfirmUsernameClick(){
         Context context = getActivity().getApplicationContext();
-        sessionEdit  = (EditText) view.findViewById(R.id.sessionIdEdit);
+        sessionEdit  = (EditText) view.findViewById(R.id.enterUsernameEdit);
         String input = sessionEdit.getText().toString();
         Toast toast;
         if(input.matches("")){
@@ -66,24 +63,23 @@ public class JoinGame extends GameState {
             toast.show();
         }
         else{
-            main.serverHandler.joinGame(input);
+            main.serverHandler.sendUsername(input);
         }
 
     }
 
     @Override
     public void serverCallback(ColorMessage cm){
-        System.out.println("Dette skjedde");
-        System.out.println(cm.getMessage().get(0));
-        if (cm.getType() == ColorMessage.JOIN){
+        if (cm.getType() == ColorMessage.USERNAME){
             String result = cm.getMessage().get(0);
-            if (result.equals("Joined the game session")){
-                ((main)getActivity()).changeState(States.ENTERUSERNAME);
+            if (result.equals("ERROR: Username taken")){
+                Context context = getActivity().getApplicationContext();
+                Toast toast = Toast.makeText(context, "This username is taken!", Toast.LENGTH_LONG);
+                toast.show();
             }
             else{
-                Context context = getActivity().getApplicationContext();
-                Toast toast = Toast.makeText(context, "No game with this session-ID exists", Toast.LENGTH_LONG);
-                toast.show();
+                ((main)getActivity()).changeState(States.LOBBY);
+
             }
         }
     }
