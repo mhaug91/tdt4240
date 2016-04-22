@@ -10,5 +10,6 @@ public enum States {
     CAMERA_STATE,
     ROUND_SUMMARY,
     CAMERA_FRAGMENT_STATE,
-    LOBBY
+    LOBBY,
+    TESTIMAGE//todo test!*************************
 }
