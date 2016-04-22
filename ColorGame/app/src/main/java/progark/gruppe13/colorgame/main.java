@@ -19,6 +19,8 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
      * Called when the activity is first created.
      */
 
+
+
     private GameState currentState;
 
     @Override
@@ -101,7 +103,10 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
         changeState(States.NEW_GAME_MENU);
     }
 
-    public void onStartGameClick(View v){changeState(States.CAMERA_FRAGMENT_STATE);}
+    public void onStartGameClick(View v){
+
+        changeState(States.CAMERA_FRAGMENT_STATE);
+    }
     public void onJoinClick(View v){changeState(States.JOINGAME);}
 
     public void roundSummary(View v){changeState((States.ROUND_SUMMARY));}
