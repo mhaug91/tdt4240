@@ -26,6 +26,7 @@ public class ServerHandler{
 		this.port = port;
 		this.username = username;
 		new AsyncConnect().execute();
+		new ListenFromServer().execute();
 	}
 
 	/*
