@@ -10,7 +10,7 @@ public class ColorMessage implements Serializable {
 	protected static final long serialVersionUID = 1112122200L;
 
 	// The different types of message sent by the Client
-	static final int START = 0, JOIN = 1, COLOR = 2, GAMESESSION = 3, LOGOUT = 4, USERNAME = 5, BEGIN = 6, GETNAMES = 7;
+	static final int START = 0, JOIN = 1, COLOR = 2, GAMESESSION = 3, LOGOUT = 4, USERNAME = 5, BEGIN = 6, GETNAMES = 7, ROUND = 8, AFTERMATH = 9;
 	private int type;
 	private ArrayList<String> message;
 	private Color color;

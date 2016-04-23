@@ -11,13 +11,16 @@ import java.util.*;
  * The server that can be run both as a console application or a GUI
  */
 public class ColorServer {
+	private ArrayList<Color> colors;
+	
 	// a unique ID for each connection
 	private static int uniqueId;
 	
 	// an ArrayList to keep the list of the Client
 	private ArrayList<ClientThread> clients;
 	private ArrayList<String> gameSessions;
-	private Map<String, Color> colorDictionary;
+	
+	private Map<String, Color> colorDict;
 	
 	private SimpleDateFormat sdf;
 	// the port number to listen for connection
@@ -37,8 +40,18 @@ public class ColorServer {
 		sdf = new SimpleDateFormat("HH:mm:ss");
 		// ArrayList for the Client list
 		clients = new ArrayList<ClientThread>();
+		
 		gameSessions = new ArrayList<String>();
-		colorDictionary = new HashMap<String, Color>();
+		
+		this.colorDict = new HashMap<String, Color>();
+		
+		this.colors = new ArrayList<Color>();
+		this.colors.add(new Color(0, 45, 255));
+		this.colors.add(new Color(0, 235, 115));
+		this.colors.add(new Color(255, 248, 0));
+		this.colors.add(new Color(232, 106, 12));
+		this.colors.add(new Color(255, 13, 252));
+		this.colors.add(new Color(255, 30, 0));
 	}
 	
 	public void start() {
@@ -109,22 +122,10 @@ public class ColorServer {
 		String time = sdf.format(new Date()) + " " + msg;
 		System.out.println(time);
 	}
-	/*
-	 *  to broadcast a message to all Clients
-	 */
-	private synchronized void broadcast(ColorMessage message) {
-		// we loop in reverse order in case we would have to remove a Client
-		// because it has disconnected
-		for(int i = clients.size(); --i >= 0;) {
-			ClientThread ct = clients.get(i);
-			// try to write to the Client if it fails remove it from the list
-			if(!ct.writeMsg(message)) {
-				clients.remove(i);
-				display("Disconnected Client " + ct.username + " removed from list.");
-			}
-		}
-	}
 	
+	/*
+	 *  to broadcast a message to all clients in a game session
+	 */	
 	private synchronized void broadcast(ColorMessage message, String gameSession) {
 		// we loop in reverse order in case we would have to remove a Client
 		// because it has disconnected
@@ -201,19 +202,15 @@ public class ColorServer {
 		
 		String date;
 
-		// Constructore
 		ClientThread(Socket socket) {
 			// a unique id
 			id = ++uniqueId;
 			this.socket = socket;
-			/* Creating both Data Stream */
 			System.out.println("Thread trying to create Object Input/Output Streams");
 			try
 			{
-				// create output first
 				sOutput = new ObjectOutputStream(socket.getOutputStream());
 				sInput  = new ObjectInputStream(socket.getInputStream());
-				// read the username
 				username = (String) sInput.readObject();
 				display(username + " just connected.");
 			}
@@ -221,19 +218,16 @@ public class ColorServer {
 				display("Exception creating new Input/output Streams: " + e);
 				return;
 			}
-			// have to catch ClassNotFoundException
-			// but I read a String, I am sure it will work
 			catch (ClassNotFoundException e) {
 			}
             date = new Date().toString() + "\n";
 		}
 
-		// what will run forever
 		public void run() {
-			// to loop until LOGOUT
+
 			boolean running = true;
 			while(running) {
-				// read a String (which is an object)
+
 				try {
 					cm = (ColorMessage) sInput.readObject();
 				}
@@ -261,48 +255,60 @@ public class ColorServer {
 							allFinished = false;
 						}
 					}
-					
 					//Broadcast scores
 					if (allFinished){
-						ColorMessage colorMsg = new ColorMessage(ColorMessage.COLOR);						
-						for (ClientThread ct : clients){
-							if (ct.gameSession.equals(this.gameSession)){
-								colorMsg.addMessage(ct.username);
-								colorMsg.addMessage(Integer.toString(ct.score));
-							}
-						}
-						broadcast(colorMsg, this.gameSession);
-						
+						broadcast(new ColorMessage(ColorMessage.COLOR, "Success"), this.gameSession);	
 					}
 					
 					break;
 				
+				case ColorMessage.AFTERMATH:
+					display("Aftermath message received");
+					ColorMessage colorMsg = new ColorMessage(ColorMessage.AFTERMATH);						
+					for (ClientThread ct : clients){
+						if (ct.gameSession.equals(this.gameSession)){
+							colorMsg.addMessage(ct.username);
+							colorMsg.addMessage(Integer.toString(ct.score));
+						}
+					}
+					writeMsg(colorMsg);
+				
 				case ColorMessage.BEGIN:
 					display("Begin message received");
 					if (this.host){
-						Color randColor = Color.RED; //TODO: Random color
-						colorDictionary.put(this.gameSession, randColor);
-						ColorMessage beginMsg = new ColorMessage(ColorMessage.BEGIN, randColor);
-						for (ClientThread ct : clients){
-							if (ct.gameSession.equals(this.gameSession)){
-								ct.roundFinished = false;
-							}
-						}
-						broadcast(beginMsg, this.gameSession);
+						Random rand = new Random();
+						Color randColor = colors.get(rand.nextInt(colors.size()));
+						colorDict.put(this.gameSession, randColor);
+						broadcast(new ColorMessage(ColorMessage.BEGIN, "success"), this.gameSession);
 					}
 					else{
 						writeMsg(new ColorMessage(ColorMessage.BEGIN, "ERROR: Only the host can begin"));
 					}
 					break;
+					
+				case ColorMessage.ROUND:
+					display("Round message received");
+					this.roundFinished = false;
+					Color c = colorDict.get(this.gameSession);
+					ColorMessage cMsg = new ColorMessage(ColorMessage.ROUND, Integer.toString(c.getRed()));
+					cMsg.addMessage(Integer.toString(c.getGreen()));
+					cMsg.addMessage(Integer.toString(c.getBlue()));
+					writeMsg(cMsg);
+					
 				
 				//Starting a new game
 				case ColorMessage.START:
-					display("Start message received");
-					this.username = cm.getMessage().get(0);
-					this.gameSession = Integer.toString(this.id);
-					gameSessions.add(Integer.toString(this.id));
-					this.host = true;
-					writeMsg(new ColorMessage(ColorMessage.START, this.gameSession));
+					display("Start message received: " +  cm.getMessage().toString());
+					if (cm.getMessage().size() == 1){
+						this.username = cm.getMessage().get(0);
+						this.gameSession = Integer.toString(this.id);
+						gameSessions.add(Integer.toString(this.id));
+						this.host = true;
+						writeMsg(new ColorMessage(ColorMessage.START, this.gameSession));
+					}
+					else{
+						display("Stopped shit from fucking itself");
+					}
 					break;
 				
 				//Joining an existing game
@@ -310,7 +316,9 @@ public class ColorServer {
 					display("Join message received");
 					if (this.gameSession == null){
 						String joinSession = cm.getMessage().get(0);
+						display("Join ID input: " + joinSession);
 						for (String session : gameSessions){
+							display("Search session: " + session);
 							if (session.equals(joinSession)){
 								this.gameSession = joinSession;
 								writeMsg(new ColorMessage(ColorMessage.JOIN, "Joined the game session"));
@@ -331,7 +339,7 @@ public class ColorServer {
 						String potentialName= cm.getMessage().get(0);
 						boolean taken = false;
 						for (ClientThread ct : clients){
-							if (ct.username.equals(potentialName)){
+							if (ct.gameSession != null && ct.gameSession == this.gameSession && ct.username.equals(potentialName)){
 								writeMsg(new ColorMessage(ColorMessage.USERNAME, "ERROR: Username taken"));
 								taken = true;
 							}
@@ -339,7 +347,7 @@ public class ColorServer {
 						if (!taken){
 							this.username = potentialName;
 							writeMsg(new ColorMessage(ColorMessage.USERNAME, "Username created"));
-							ColorMessage updateMsg = new ColorMessage(ColorMessage.USERNAME, this.username);
+							ColorMessage updateMsg = new ColorMessage(ColorMessage.USERNAME);
 							for (ClientThread ct : clients){
 								if (ct.gameSession.equals(this.gameSession)){
 									updateMsg.addMessage(ct.username);
@@ -369,7 +377,7 @@ public class ColorServer {
 				case ColorMessage.GETNAMES:
 					ColorMessage namesMsg = new ColorMessage(ColorMessage.GETNAMES);
 					for (ClientThread ct : clients){
-						if (ct.gameSession.equals(this.gameSession)){
+						if (ct.gameSession != null && ct.gameSession.equals(this.gameSession)){
 							namesMsg.addMessage(ct.username);
 						}
 					}
@@ -381,9 +389,8 @@ public class ColorServer {
 				}
 					
 			}
-			// remove myself from the arrayList containing the list of the
-			// connected Clients
-			display("Client thread while ended");
+
+			display(this.username + " disconnected");
 			remove(id);
 			close();
 		}
@@ -405,11 +412,9 @@ public class ColorServer {
 			catch (Exception e) {}
 		}
 
-		/*
-		 * Write a String to the Client output stream
-		 */
+		//Write a String to the Client output stream
 		private boolean writeMsg(ColorMessage msg) {
-			display("Writing message to client");
+			display("Writing message to " + this.username + ": " + msg.getMessage());
 			// if Client is still connected send the message to it
 			if(!socket.isConnected()) {
 				close();
