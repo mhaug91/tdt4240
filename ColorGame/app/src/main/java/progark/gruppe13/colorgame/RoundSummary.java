@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import progark.gruppe13.colorgame.util.States;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public class RoundSummary extends GameState{
 
     ArrayList<String> topFiveHighScoresList;
+    private TextView playersAndScoreTextView;
 
     public static RoundSummary newInstance() {
         RoundSummary fragment = new RoundSummary();
@@ -35,20 +37,9 @@ public class RoundSummary extends GameState{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_roundsummary, container, false);
 
-        //testliste, skal ikke være her
-        ArrayList<String> testList = new ArrayList<String>();
-        testList.add("en");
-        testList.add("to");
-        testList.add("tre");
 
-        TextView newtext = (TextView) view.findViewById(R.id.scoreList);
-        newtext.setSingleLine(false);
-        //bytt til topFiveHighScoresList
-        for (String id : testList){
-            newtext.append(id);
-            newtext.append("\n");
-        }
-
+        playersAndScoreTextView = (TextView) view.findViewById(R.id.scoreList);
+        main.serverHandler.getScores();
 
         return view;
     }
@@ -64,6 +55,33 @@ public class RoundSummary extends GameState{
 
 
     }
+
+    @Override
+    public void serverCallback(ColorMessage cm){
+        System.out.println("Her mottatt medling: " + cm.getMessage());
+        if (cm.getType() == ColorMessage.AFTERMATH){
+
+            System.out.println("Har mottatt scorelist: " + cm.getMessage());
+            final ArrayList<String> userAndScoreArray = cm.getMessage();
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    playersAndScoreTextView.setSingleLine(false);
+                    //bytt til topFiveHighScoresList
+                    for (int i = 0; i < userAndScoreArray.size(); i+=2) {
+                        playersAndScoreTextView.append(userAndScoreArray.get(i));
+                        playersAndScoreTextView.append("\t");
+                        playersAndScoreTextView.append(userAndScoreArray.get(i+1));
+                        playersAndScoreTextView.append("\n");
+                    }
+                }
+            });
+        }
+    }
+
+
+
+
 
     @Override
     public void update() {

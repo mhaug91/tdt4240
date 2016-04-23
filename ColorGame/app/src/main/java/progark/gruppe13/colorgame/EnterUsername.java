@@ -16,7 +16,7 @@ import progark.gruppe13.colorgame.util.States;
  */
 public class EnterUsername extends GameState {
     View view;
-    EditText sessionEdit;
+    EditText userEdit;
 
     public static EnterUsername newInstance() {
         EnterUsername fragment = new EnterUsername();
@@ -47,6 +47,16 @@ public class EnterUsername extends GameState {
             }
         });
 
+        userEdit = (EditText) view.findViewById(R.id.enterUsernameEdit);
+        /*userEdit.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            public void onFocusChange(View v, boolean hasFocus){
+                if(hasFocus)
+                    userEdit.setHint("");
+                else
+                    userEdit.setHint("Your hint");
+            }
+        });*/
+
         return view;
 
         // Inflate the layout for this fragment
@@ -55,12 +65,8 @@ public class EnterUsername extends GameState {
     }
     public void onConfirmUsernameClick(){
         Context context = getActivity().getApplicationContext();
-        sessionEdit  = (EditText) view.findViewById(R.id.enterUsernameEdit);
-        String input = sessionEdit.getText().toString();
-        Toast toast;
+        String input = userEdit.getText().toString();
         if(input.matches("")){
-            toast = Toast.makeText(context, "Please insert a username to start a game, dude", Toast.LENGTH_LONG);
-            toast.show();
         }
         else{
             main.serverHandler.sendUsername(input);

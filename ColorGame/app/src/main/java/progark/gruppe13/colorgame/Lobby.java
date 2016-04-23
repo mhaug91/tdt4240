@@ -55,7 +55,7 @@ public class Lobby extends GameState {
 
 
     public void onStartGameClick(){
-        ((main)getActivity()).changeState(States.CAMERA_FRAGMENT_STATE);
+        System.out.println("has clicked this button in lobbyview");main.serverHandler.beginRound();
     }
 
 
@@ -67,16 +67,20 @@ public class Lobby extends GameState {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+
                     textList.setSingleLine(false);
                     textList.setText("");
                     for (String id : usernames){
                         textList.append(id);
                         textList.append("\n");
                     }
-
                 }
             });
-
+        }
+        else if (cm.getType() == ColorMessage.BEGIN){
+            if (cm.getMessage().get(0).equals("success")){
+                ((main)getActivity()).changeState(States.CAMERA_FRAGMENT_STATE);
+            }
         }
     }
 

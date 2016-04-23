@@ -4,12 +4,19 @@
                 android:layout_height="match_parent"
                 tools:context="progark.gruppe13.colorgame.Start_menu" android:paddingTop="25dp">
 
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:text="#sessionID"
+              android:id="@+id/sessionIdFromServer"
+              android:paddingTop="25dp"
+              android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/buttonStartGame"
-        android:text="Start Game!"/>
+        android:layout_below="@id/sessionIdFromServer"
+        android:text="@string/startGameString"/>
 
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
               android:text="Players in lobby:"
@@ -22,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
             android:layout_below="@id/playersInLobbyText" android:paddingTop="50dp" android:smoothScrollbar="true"
-            android:textAppearance="@color/abc_primary_text_material_light" android:textColor="#ff2955">
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" android:textColor="#ff2955">
 
     </TextView>
 

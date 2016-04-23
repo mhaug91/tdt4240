@@ -12,7 +12,8 @@ public class Analyzer {
         int imgH = bitmap.getHeight();
         int imgW = bitmap.getWidth();
         int score = 0;
-        int maxLeeway = 1500;
+        int maxLeeway = 10000;
+        int pixelCount = 0;
 
         for (int x = 0; x < imgW; x++) {
             for (int y = 0; y < imgH ; y++) {
@@ -21,11 +22,14 @@ public class Analyzer {
                 int blueValue = Color.blue(pixel);
                 int greenValue = Color.green(pixel);
 
+                pixelCount++;
                 if (similarTo(redValue, greenValue,blueValue,goalRed,goalGreen,goalBlue,maxLeeway)){
                     score++;
                 }
             }
         }
+        System.out.println(pixelCount);
+        System.out.println("The score is: " + score/4);
         return score/4;
     }
 

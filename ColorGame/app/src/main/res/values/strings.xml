@@ -9,4 +9,8 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="enterUserNameString">Enter a user name</string>
     <string name="startGameString">Start new game</string>
+    <string name="startMenuNewGame">Start new game</string>
+    <string name="startMenuJoinGame">Join existing game</string>
+    <string name="sessionIdHint">Enter session id</string>
+
 </resources>

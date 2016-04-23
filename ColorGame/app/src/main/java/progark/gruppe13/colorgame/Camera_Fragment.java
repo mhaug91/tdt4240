@@ -6,25 +6,25 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import progark.gruppe13.colorgame.util.Analyzer;
+import progark.gruppe13.colorgame.util.States;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -38,8 +38,11 @@ import java.util.Date;
  */
 public class Camera_Fragment extends GameState {
 
-
+    int targetRed;
+    int targetGreen;
+    int targetBlue;
     TextView timerTextView;
+    LinearLayout cameraLayoutHolder;
     long startTime = 0;
 
     private Camera mCamera;
@@ -50,6 +53,7 @@ public class Camera_Fragment extends GameState {
 
     private Bitmap bm;
 
+    /*
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
 
@@ -65,6 +69,7 @@ public class Camera_Fragment extends GameState {
             timerHandler.postDelayed(this, 500);
         }
     };
+    */
 
     // TODO: Rename and change types and number of parameters
     public static Camera_Fragment newInstance() {
@@ -93,21 +98,24 @@ public class Camera_Fragment extends GameState {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-// Inflate the layout for this fragment
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.camera_layout, container, false);
 
         // Create an instance of Camera
         mCamera = getCameraInstance();
-        Log.i("ji", "Jiij");
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(getActivity(), mCamera);
         //FrameLayout preview = (FrameLayout) getView().findViewById(R.id.camera_preview);
         FrameLayout preview = (FrameLayout) view.findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
+        cameraLayoutHolder = (LinearLayout) view.findViewById(R.id.cameraLayoutHolder);
+        //henter farge fra server
+        main.serverHandler.getColor();
+
         // --------------
         // PRØVER Å LEGGE TIL EN TIMER OPPÅ KAMERA PREVIEW FELTET
-        timerTextView = (TextView) view.findViewById(R.id.timerTextView);
+        //timerTextView = (TextView) view.findViewById(R.id.timerTextView);
         /*timerTextView = new TextView(this);
         timerTextView.setText("Timer");
         timerTextView.setLayoutParams(new ViewGroup.LayoutParams(
@@ -119,7 +127,7 @@ public class Camera_Fragment extends GameState {
         // FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
         //((FrameLayout) findViewById(R.id.camera_preview)).addView(timerTextView);
 
-
+        /*
         Button b = (Button) view.findViewById(R.id.button);
         b.setText("start");
         b.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +145,7 @@ public class Camera_Fragment extends GameState {
                 }
             }
         });
+        */
 
         // Add a listener to the Capture button
         Button captureButton = (Button) view.findViewById(R.id.button_capture);
@@ -156,6 +165,33 @@ public class Camera_Fragment extends GameState {
 
     }
 
+    @Override
+    public void serverCallback(final ColorMessage cm){
+        System.out.println("got message: ");
+        if (cm.getType() == ColorMessage.ROUND){
+            int r = Integer.parseInt(cm.getMessage().get(0));
+            int g = Integer.parseInt(cm.getMessage().get(1));
+            int b = Integer.parseInt(cm.getMessage().get(2));
+            targetRed = r;
+            targetGreen = g;
+            targetBlue = b;
+            final int targetColorForUi = Color.rgb(r,g,b);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cameraLayoutHolder.setBackgroundColor(targetColorForUi);
+                }
+            });
+        }
+
+        else if (cm.getType() == ColorMessage.COLOR){
+            System.out.println();
+            if (cm.getMessage().get(0).equals("Success")){
+                ((main)getActivity()).changeState(States.ROUND_SUMMARY);
+            }
+        }
+    }
+
 
     @Override
     public void update() {
@@ -173,13 +209,20 @@ public class Camera_Fragment extends GameState {
         public void onPictureTaken(byte[] data, Camera camera) {
 
             File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-            Log.i("tag", "image length: " + data.length);
-            bm = BitmapFactory.decodeByteArray(data, 0, data.length);
-
             if (pictureFile == null){
                 Log.d("TAG", "Error creating media file, check storage permissions: " );
+                System.out.println("no picture file yo");
                 return;
             }
+            Log.i("tag", "image length: " + data.length);
+            bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+            System.out.println("har laget bitmap");
+            int score = Analyzer.scoreBitmap(bm,targetRed,targetGreen,targetBlue);
+            System.out.println("Har laget score : " + score);
+
+            main.serverHandler.sendScore(score);
+            System.out.println("Har sendt score : " + score);
+
 /*
             try {
 
@@ -241,7 +284,7 @@ public class Camera_Fragment extends GameState {
     @Override
     public void onPause() {
         super.onPause();
-        timerHandler.removeCallbacks(timerRunnable);
+        //timerHandler.removeCallbacks(timerRunnable);
        // Button b = (Button) findViewById(R.id.button);
        // b.setText("start");
         releaseCamera();              // release the camera immediately on pause event

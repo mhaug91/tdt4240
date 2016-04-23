@@ -61,6 +61,7 @@ public class New_game_menu extends GameState {
     public void onNewGameClick(){
         usernameEdit  = (EditText) view.findViewById(R.id.editTextUsernameNewGame);
         String username = usernameEdit.getText().toString();
+        System.out.println("Dette skjer i new game menu WTFFFFF");
         main.serverHandler.startGame(username);
     }
 

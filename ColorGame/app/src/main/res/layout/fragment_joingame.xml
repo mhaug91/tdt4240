@@ -14,7 +14,7 @@
         android:layout_marginBottom="30dp"
         android:id="@+id/sessionIdEdit"
         android:inputType="number"
-        android:hint="SessionID"/>
+        android:hint="@string/sessionIdHint"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:id="@+id/buttonNewGame"
-        android:text="New Game"
+        android:text="@string/startMenuNewGame"
         android:onClick="onNewClick"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/buttonJoinGame"
-        android:text="Join Game"
+        android:text="@string/startMenuJoinGame"
         android:onClick="onJoinClick"
         android:layout_below="@+id/buttonNewGame"
         />

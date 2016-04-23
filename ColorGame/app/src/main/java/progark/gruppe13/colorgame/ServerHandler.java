@@ -112,6 +112,7 @@ public class ServerHandler{
 	}
 
 	public void beginRound(){
+		System.out.println("Sending message beginRound");
 		ColorMessage beginMsg = new ColorMessage(ColorMessage.BEGIN);
 		try {
 			sOutput.writeObject(beginMsg);
@@ -135,6 +136,26 @@ public class ServerHandler{
 		ColorMessage userMsg = new ColorMessage(ColorMessage.GETNAMES);
 		try {
 			sOutput.writeObject(userMsg);
+		}
+		catch(IOException e) {
+			display("Exception writing to server: " + e);
+		}
+	}
+
+	public void getColor(){
+		ColorMessage msg = new ColorMessage(ColorMessage.ROUND);
+		try {
+			sOutput.writeObject(msg);
+		}
+		catch(IOException e) {
+			display("Exception writing to server: " + e);
+		}
+	}
+
+	public void getScores(){
+		ColorMessage msg = new ColorMessage(ColorMessage.AFTERMATH);
+		try {
+			sOutput.writeObject(msg);
 		}
 		catch(IOException e) {
 			display("Exception writing to server: " + e);
