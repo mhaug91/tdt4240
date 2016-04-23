@@ -34,7 +34,6 @@ public class ColorMessage implements Serializable {
 		this.message.add(m);
 		this.color = null;
 	}
-	
 	int getType() {
 		return type;
 	}
