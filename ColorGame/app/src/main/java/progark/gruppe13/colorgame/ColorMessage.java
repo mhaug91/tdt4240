@@ -15,7 +15,7 @@ public class ColorMessage implements Serializable {
 	private int type;
 	private ArrayList<String> message;
 	private Color color;
-	
+
 	ColorMessage(int type) {
 		this.type = type;
 		this.message = new ArrayList<String>();
@@ -53,4 +53,5 @@ public class ColorMessage implements Serializable {
 	Color getColor(){
 		return this.color;
 	}
+	
 }
