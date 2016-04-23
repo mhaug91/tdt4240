@@ -82,36 +82,63 @@ public class ServerHandler{
 	}
 
 	public void startGame(String username){
-		display("Start game call received");
 		ColorMessage startMsg = new ColorMessage(ColorMessage.START, username);
 		try {
 			sOutput.writeObject(startMsg);
 		}
-		catch (IOException e){
-			display("Whaddapp though holmes");
+		catch(IOException e) {
+			display("Exception writing to server: " + e);
 		}
-		display("DONE BWOI");
-		//new SendMessage().execute(startMsg);
 	}
 
 	public void sendUsername(String username){
 		ColorMessage nameMsg = new ColorMessage(ColorMessage.USERNAME, username);
-		new SendMessage().execute(nameMsg);
+		try {
+			sOutput.writeObject(nameMsg);
+		}
+		catch(IOException e) {
+			display("Exception writing to server: " + e);
+		}
 	}
 
 	public void joinGame(String gameSession){
 		ColorMessage joinMsg = new ColorMessage(ColorMessage.JOIN, gameSession);
-		new SendMessage().execute(joinMsg);
+		try {
+			sOutput.writeObject(joinMsg);
+		}
+		catch(IOException e) {
+			display("Exception writing to server: " + e);
+		}
 	}
 
 	public void beginRound(){
 		ColorMessage beginMsg = new ColorMessage(ColorMessage.BEGIN);
-		new SendMessage().execute(beginMsg);
+		try {
+			sOutput.writeObject(beginMsg);
+		}
+		catch(IOException e) {
+			display("Exception writing to server: " + e);
+		}
 	}
 
 	public void sendScore(int score){
 		ColorMessage clrMsg = new ColorMessage(ColorMessage.COLOR, Integer.toString(score));
-		new SendMessage().execute(clrMsg);
+		try {
+			sOutput.writeObject(clrMsg);
+		}
+		catch(IOException e) {
+			display("Exception writing to server: " + e);
+		}
+	}
+
+	public void getUsernames(String gameID){
+		ColorMessage userMsg = new ColorMessage(ColorMessage.GETNAMES);
+		try {
+			sOutput.writeObject(userMsg);
+		}
+		catch(IOException e) {
+			display("Exception writing to server: " + e);
+		}
 	}
 
 	private class AsyncConnect extends AsyncTask<Void, Void, String> {

@@ -68,8 +68,8 @@ public class New_game_menu extends GameState {
     public void serverCallback(ColorMessage cm){
         if (cm.getType() == ColorMessage.START){
             String gameID = cm.getMessage().get(0);
-            ((main)getActivity()).changeState(States.LOBBY);
             System.out.println("jeg har connected og id er: " + gameID);
+            ((main)getActivity()).changeState(States.LOBBY);
         }
     }
 

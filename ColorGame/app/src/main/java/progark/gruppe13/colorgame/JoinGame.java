@@ -81,9 +81,7 @@ public class JoinGame extends GameState {
                 ((main)getActivity()).changeState(States.ENTERUSERNAME);
             }
             else{
-                Context context = getActivity().getApplicationContext();
-                Toast toast = Toast.makeText(context, "No game with this session-ID exists", Toast.LENGTH_LONG);
-                toast.show();
+                System.out.println("Ville ikke joine");
             }
         }
     }

@@ -82,6 +82,12 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 fragmentTransaction.commit();
                 serverHandler.setListener(currentState);
                 break;
+            case LOBBY:
+                currentState = new Lobby();
+                fragmentTransaction.replace(android.R.id.content, currentState);
+                fragmentTransaction.commit();
+                serverHandler.setListener(currentState);
+                break;
         }
 
 

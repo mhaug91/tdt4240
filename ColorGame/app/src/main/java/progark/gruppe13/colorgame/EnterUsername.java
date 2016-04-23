@@ -73,9 +73,7 @@ public class EnterUsername extends GameState {
         if (cm.getType() == ColorMessage.USERNAME){
             String result = cm.getMessage().get(0);
             if (result.equals("ERROR: Username taken")){
-                Context context = getActivity().getApplicationContext();
-                Toast toast = Toast.makeText(context, "This username is taken!", Toast.LENGTH_LONG);
-                toast.show();
+                System.out.println("username taken yo!");
             }
             else{
                 ((main)getActivity()).changeState(States.LOBBY);
