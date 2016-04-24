@@ -69,8 +69,11 @@ public class New_game_menu extends GameState {
 
     public void onNewGameClick(){
         String username = usernameEdit.getText().toString();
-        System.out.println("Dette skjer i new game menu WTFFFFF");
-        main.serverHandler.startGame(username);
+        if (username.length()>1) {
+            main.serverHandler.startGame(username);
+        }else{
+            ((main)getActivity()).makeToast("Username can't be empty");
+        }
     }
 
     @Override
@@ -81,11 +84,4 @@ public class New_game_menu extends GameState {
             ((main)getActivity()).changeState(States.LOBBY);
         }
     }
-
-    public void onNewGameClick(View v){
-        Log.i("klkikk", "klikk");
-    }
-
-
-
 }

@@ -103,12 +103,15 @@ public class RoundSummary extends GameState{
                             hasRenderedScores = true;
                         }
 
-                    }, 1000); // 5000ms delay
+                    }, 700);
                 }
             });
         }else if (cm.getType() == ColorMessage.BEGIN && hasRenderedScores){
-            if (cm.getMessage().get(0).equals("success"))
-                ((main)getActivity()).changeState(States.CAMERA_FRAGMENT_STATE);
+            if (cm.getMessage().get(0).equals("success")) {
+                ((main) getActivity()).changeState(States.CAMERA_FRAGMENT_STATE);
+            }else{
+                ((main)getActivity()).makeToast("Only host can begin new round");
+            }
         }
     }
 

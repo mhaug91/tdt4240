@@ -1,22 +1,12 @@
 package progark.gruppe13.colorgame;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.Camera;
-import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 import java.io.IOException;
-
-import progark.gruppe13.colorgame.util.States;
 
 /**
  * Created by mac on 14.04.2016.

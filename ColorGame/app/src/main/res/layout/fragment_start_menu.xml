@@ -10,9 +10,13 @@
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/colorgamelogoStartMenu" android:layout_centerHorizontal="true"
-            android:src = "@drawable/colorgamelogofat" android:paddingLeft="50dp" android:paddingRight="50dp"
-            android:paddingTop="50dp" android:layout_above="@+id/buttonNewGame"/>
+            android:id="@+id/colorgamelogoStartMenu"
+            android:layout_centerHorizontal="true"
+            android:src = "@drawable/colorgamelogofat"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="50dp"
+            android:layout_above="@+id/buttonNewGame"/>
 
     <Button
         android:layout_width="match_parent"

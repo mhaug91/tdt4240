@@ -67,6 +67,7 @@ public class EnterUsername extends GameState {
         Context context = getActivity().getApplicationContext();
         String input = userEdit.getText().toString();
         if(input.length()<1){
+            ((main)getActivity()).makeToast("Username can't be empty");
         }
         else{
             main.serverHandler.sendUsername(input);
@@ -79,7 +80,7 @@ public class EnterUsername extends GameState {
         if (cm.getType() == ColorMessage.USERNAME){
             String result = cm.getMessage().get(0);
             if (result.equals("ERROR: Username taken")){
-                System.out.println("username taken yo!");
+                ((main)getActivity()).makeToast("This username is allready taken");
             }
             else{
                 ((main)getActivity()).changeState(States.LOBBY);

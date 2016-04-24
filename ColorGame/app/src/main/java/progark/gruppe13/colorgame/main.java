@@ -62,25 +62,18 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 fragmentTransaction.commit();
                 serverHandler.setListener(currentState);
                 break;
-
             case JOINGAME:
                 currentState = new JoinGame();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
                 serverHandler.setListener(currentState);
                 break;
-
             case NEW_GAME_MENU:
                 currentState = new New_game_menu();
                 fragmentTransaction.replace(android.R.id.content, currentState);
                 fragmentTransaction.commit();
                 serverHandler.setListener(currentState);
                 break;
-            case CAMERA_STATE:
-                Log.i("kamera", "kamerastate");
-                Intent intent = new Intent("progark.gruppe13.colorgame.CameraActivity");
-                startActivity(intent);
-                finish();
             case ROUND_SUMMARY:
                 currentState = new RoundSummary();
                 fragmentTransaction.replace(android.R.id.content, currentState);
@@ -106,34 +99,7 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
                 serverHandler.setListener(currentState);
                 break;
         }
-
-
     }
-
-
-    /** Check if this device has a camera */
-    private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            // this device has a camera
-            return true;
-        } else {
-            // no camera on this device
-            return false;
-        }
-    }
-
-    /** A safe way to get an instance of the Camera object. */
-    public static Camera getCameraInstance(){
-        Camera c = null;
-        try {
-            c = Camera.open(); // attempt to get a Camera instance
-        }
-        catch (Exception e){
-            // Camera is not available (in use or does not exist)
-        }
-        return c; // returns null if camera is unavailable
-    }
-
 
     public void onNewClick(View v){
         changeState(States.NEW_GAME_MENU);
@@ -141,6 +107,9 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
 
     public void onJoinClick(View v){changeState(States.JOINGAME);}
 
+    public void makeToast(String toastText){
+        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {

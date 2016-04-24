@@ -24,7 +24,6 @@ import progark.gruppe13.colorgame.util.States;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -53,24 +52,6 @@ public class Camera_Fragment extends GameState {
 
     private Bitmap bm;
 
-    /*
-    Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            long millis = System.currentTimeMillis() - startTime;
-            int seconds = (int) (millis / 1000);
-            int minutes = seconds / 60;
-            seconds = seconds % 60;
-
-            timerTextView.setText(String.format("%d:%02d", minutes, seconds));
-
-            timerHandler.postDelayed(this, 500);
-        }
-    };
-    */
-
     // TODO: Rename and change types and number of parameters
     public static Camera_Fragment newInstance() {
         Camera_Fragment fragment = new Camera_Fragment();
@@ -89,8 +70,6 @@ public class Camera_Fragment extends GameState {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
 
@@ -113,39 +92,6 @@ public class Camera_Fragment extends GameState {
         //henter farge fra server
         main.serverHandler.getColor();
 
-        // --------------
-        // PRØVER Å LEGGE TIL EN TIMER OPPÅ KAMERA PREVIEW FELTET
-        //timerTextView = (TextView) view.findViewById(R.id.timerTextView);
-        /*timerTextView = new TextView(this);
-        timerTextView.setText("Timer");
-        timerTextView.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-        preview.addView(timerTextView);
-        --------------*/
-        //timerTextView = (TextView) findViewById(R.id.timerTextView);
-        // FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        //((FrameLayout) findViewById(R.id.camera_preview)).addView(timerTextView);
-
-        /*
-        Button b = (Button) view.findViewById(R.id.button);
-        b.setText("start");
-        b.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Button b = (Button) v;
-                if (b.getText().equals("stop")) {
-                    timerHandler.removeCallbacks(timerRunnable);
-                    b.setText("start");
-                } else {
-                    startTime = System.currentTimeMillis();
-                    timerHandler.postDelayed(timerRunnable, 0);
-                    b.setText("stop");
-                }
-            }
-        });
-        */
 
         // Add a listener to the Capture button
         Button captureButton = (Button) view.findViewById(R.id.button_capture);
@@ -158,11 +104,7 @@ public class Camera_Fragment extends GameState {
                     }
                 }
         );
-
         return view;
-
-
-
     }
 
     @Override
@@ -188,10 +130,9 @@ public class Camera_Fragment extends GameState {
                 ((main) getActivity()).changeState(States.ROUND_SUMMARY);
             }
         }
-
     }
-    private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
+    private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
 
@@ -199,6 +140,7 @@ public class Camera_Fragment extends GameState {
             if (pictureFile == null){
                 Log.d("TAG", "Error creating media file, check storage permissions: " );
                 System.out.println("no picture file yo");
+                main.serverHandler.sendScore(42752);
                 return;
             }
             Log.i("tag", "image length: " + data.length);
@@ -209,20 +151,6 @@ public class Camera_Fragment extends GameState {
 
             main.serverHandler.sendScore(score);
             System.out.println("Har sendt score : " + score);
-
-/*
-            try {
-
-                FileOutputStream fos = new FileOutputStream(pictureFile);
-                fos.write(data);
-                fos.close();
-
-            } catch (FileNotFoundException e) {
-                Log.d("TAG", "File not found: " + e.getMessage());
-            } catch (IOException e) {
-                Log.d("TAG", "Error accessing file: " + e.getMessage());
-            }
-            */
         }
     };
 
@@ -271,9 +199,6 @@ public class Camera_Fragment extends GameState {
     @Override
     public void onPause() {
         super.onPause();
-        //timerHandler.removeCallbacks(timerRunnable);
-       // Button b = (Button) findViewById(R.id.button);
-       // b.setText("start");
         releaseCamera();              // release the camera immediately on pause event
     }
 
@@ -308,8 +233,5 @@ public class Camera_Fragment extends GameState {
             return false;
         }
     }
-
-
-
 }
 

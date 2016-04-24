@@ -55,13 +55,12 @@ public class JoinGame extends GameState {
 
     }
     public void onJoinSessionClick(){
-        Log.i("OIDA", "klikka her duuu..");
         //ServerHandler mySH = new ServerHandler("127.0.0.1", 1501, "julenissen");
         Context context = getActivity().getApplicationContext();
         sessionEdit  = (EditText) view.findViewById(R.id.sessionIdEdit);
         String input = sessionEdit.getText().toString();
-        Toast toast;
         if(input.matches("")){
+            ((main)getActivity()).makeToast("Must have session ID!");
         }
         else{
             main.serverHandler.joinGame(input);
@@ -71,15 +70,13 @@ public class JoinGame extends GameState {
 
     @Override
     public void serverCallback(ColorMessage cm){
-        System.out.println("Dette skjedde");
-        System.out.println(cm.getMessage().get(0));
         if (cm.getType() == ColorMessage.JOIN){
             String result = cm.getMessage().get(0);
             if (result.equals("Joined the game session")){
                 ((main)getActivity()).changeState(States.ENTERUSERNAME);
             }
             else{
-                System.out.println("Ville ikke joine");
+                ((main)getActivity()).makeToast("No such session ID");
             }
         }
     }

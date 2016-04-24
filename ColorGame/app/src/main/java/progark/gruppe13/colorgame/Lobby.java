@@ -65,9 +65,9 @@ public class Lobby extends GameState {
 
 
     @Override
-    public void serverCallback(final ColorMessage cm){
+    public void serverCallback(final ColorMessage cm) {
         //hver gang noen andre logger på
-        if (cm.getType() == ColorMessage.USERNAME || cm.getType() == ColorMessage.GETNAMES){
+        if (cm.getType() == ColorMessage.USERNAME || cm.getType() == ColorMessage.GETNAMES) {
             final ArrayList<String> usernames = cm.getMessage();
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -75,13 +75,13 @@ public class Lobby extends GameState {
 
                     textList.setSingleLine(false);
                     textList.setText("");
-                    for (String id : usernames){
+                    for (String id : usernames) {
                         textList.append(id);
                         textList.append("\n");
                     }
                 }
             });
-        }else if(cm.getType() == ColorMessage.GETID){
+        } else if (cm.getType() == ColorMessage.GETID) {
             final String sessionIdString = cm.getMessage().get(0);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -89,12 +89,12 @@ public class Lobby extends GameState {
                     sessionIdText.setText("Session ID: " + sessionIdString);
                 }
             });
-        }
-        else if (cm.getType() == ColorMessage.BEGIN){
-            if (cm.getMessage().get(0).equals("success")){
-                ((main)getActivity()).changeState(States.CAMERA_FRAGMENT_STATE);
+        } else if (cm.getType() == ColorMessage.BEGIN) {
+            if (cm.getMessage().get(0).equals("success")) {
+                ((main) getActivity()).changeState(States.CAMERA_FRAGMENT_STATE);
+            } else {
+                ((main) getActivity()).makeToast("Only host can start the round.");
             }
         }
     }
-
 }
