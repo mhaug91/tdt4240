@@ -35,7 +35,7 @@ public class Analyzer {
         }
         System.out.println(pixelCount);
         System.out.println("The score is: " + score/4);
-        pixelCount = pixelCount/100000;
+        pixelCount = pixelCount/10000+1;
         return score/pixelCount;
     }
 
