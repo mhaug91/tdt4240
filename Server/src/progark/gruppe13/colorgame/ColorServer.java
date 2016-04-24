@@ -7,38 +7,25 @@ import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/*
- * The server that can be run both as a console application or a GUI
- */
+
 public class ColorServer {
 	private ArrayList<Color> colors;
 	
-	// a unique ID for each connection
 	private static int uniqueId;
 	
-	// an ArrayList to keep the list of the Client
 	private ArrayList<ClientThread> clients;
 	private ArrayList<String> gameSessions;
 	
 	private Map<String, Color> colorDict;
 	
 	private SimpleDateFormat sdf;
-	// the port number to listen for connection
 	private int port;
-	// the boolean that will be turned of to stop the server
 	private boolean running;
 	
-	/*
-	 *  server constructor that receive the port to listen to for connection as parameter
-	 *  in console
-	 */
 	
 	public ColorServer(int port) {
-		// the port
 		this.port = port;
-		// to display hh:mm:ss
 		sdf = new SimpleDateFormat("HH:mm:ss");
-		// ArrayList for the Client list
 		clients = new ArrayList<ClientThread>();
 		
 		gameSessions = new ArrayList<String>();
@@ -56,27 +43,21 @@ public class ColorServer {
 	
 	public void start() {
 		running = true;
-		/* create socket server and wait for connection requests */
 		try 
 		{
-			// the socket used by the server
 			ServerSocket serverSocket = new ServerSocket(port);
 
-			// infinite loop to wait for connections
 			while(running) 
 			{
-				// format message saying we are waiting
 				display("Server waiting for Clients on port " + port + ".");
 				
-				Socket socket = serverSocket.accept();  	// accept connection
-				// if I was asked to stop
+				Socket socket = serverSocket.accept(); 
 				if(!running)
 					break;
-				ClientThread clientThread = new ClientThread(socket);  // make a thread of it
-				clients.add(clientThread);								// save it in the ArrayList
+				ClientThread clientThread = new ClientThread(socket);  
+				clients.add(clientThread);
 				clientThread.start();
 			}
-			// I was asked to stop
 			try {
 				serverSocket.close();
 				for(int i = 0; i < clients.size(); ++i) {
@@ -86,46 +67,32 @@ public class ColorServer {
 					tc.sOutput.close();
 					tc.socket.close();
 					}
-					catch(IOException ioE) {
-						// not much I can do
-					}
+					catch(IOException ioE) {}
 				}
 			}
 			catch(Exception e) {
 				display("Exception closing the server and clients: " + e);
 			}
 		}
-		// something went bad
 		catch (IOException e) {
             String msg = sdf.format(new Date()) + " Exception on new ServerSocket: " + e + "\n";
 			display(msg);
 		}
 	}		
-    /*
-     * For the GUI to stop the server
-     */
+
 	protected void stop() {
 		running = false;
-		// connect to myself as Client to exit statement 
-		// Socket socket = serverSocket.accept();
 		try {
 			new Socket("localhost", port);
 		}
-		catch(Exception e) {
-			// nothing I can really do
-		}
+		catch(Exception e) {}
 	}
-	/*
-	 * Display an event (not a message) to the console or the GUI
-	 */
+
 	private void display(String msg) {
 		String time = sdf.format(new Date()) + " " + msg;
 		System.out.println(time);
 	}
 	
-	/*
-	 *  to broadcast a message to all clients in a game session
-	 */	
 	private synchronized void broadcast(ColorMessage message, String gameSession) {
 		// we loop in reverse order in case we would have to remove a Client
 		// because it has disconnected
@@ -139,12 +106,10 @@ public class ColorServer {
 		}
 	}
 
-	// for a client who logoff using the LOGOUT message
 	synchronized void remove(int id) {
 		// scan the array list until we found the Id
 		for(int i = 0; i < clients.size(); ++i) {
 			ClientThread ct = clients.get(i);
-			// found it
 			if(ct.id == id) {
 				clients.remove(i);
 				return;
@@ -152,14 +117,7 @@ public class ColorServer {
 		}
 	}
 	
-	/*
-	 *  To run as a console application just open a console window and: 
-	 * > java Server
-	 * > java Server portNumber
-	 * If the port number is not specified 1500 is used
-	 */ 
 	public static void main(String[] args) {
-		// start server on port 1500 unless a PortNumber is specified 
 		int portNumber = 1502;
 		switch(args.length) {
 			case 1:
@@ -178,20 +136,15 @@ public class ColorServer {
 				return;
 				
 		}
-		// create a server object and start it
 		ColorServer server = new ColorServer(portNumber);
 		server.start();
 	}
 
-	/** One instance of this thread will run for each client */
 	class ClientThread extends Thread {
-		// the socket where to listen/talk
 		Socket socket;
 		ObjectInputStream sInput;
 		ObjectOutputStream sOutput;
-		// my unique id (easier for deconnection)
 		int id;
-		// the Username of the Client
 		String username;
 		String gameSession = null;
 		boolean host = false;
@@ -203,7 +156,6 @@ public class ColorServer {
 		String date;
 
 		ClientThread(Socket socket) {
-			// a unique id
 			id = ++uniqueId;
 			this.socket = socket;
 			System.out.println("Thread trying to create Object Input/Output Streams");
@@ -240,9 +192,7 @@ public class ColorServer {
 					break;
 				}
 
-				// Switch on the type of message receive
 				switch(cm.getType()) {
-				
 				case ColorMessage.COLOR:
 					display("Color message received");
 					this.score += Integer.parseInt(cm.getMessage().get(0));
@@ -255,7 +205,6 @@ public class ColorServer {
 							allFinished = false;
 						}
 					}
-					//Broadcast scores
 					if (allFinished){
 						broadcast(new ColorMessage(ColorMessage.COLOR, "Success"), this.gameSession);	
 					}
@@ -296,7 +245,6 @@ public class ColorServer {
 					writeMsg(cMsg);
 					
 				
-				//Starting a new game
 				case ColorMessage.START:
 					display("Start message received: " +  cm.getMessage().toString());
 					if (cm.getMessage().size() == 1){
@@ -311,7 +259,6 @@ public class ColorServer {
 					}
 					break;
 				
-				//Joining an existing game
 				case ColorMessage.JOIN:
 					display("Join message received");
 					if (this.gameSession == null){
@@ -383,6 +330,11 @@ public class ColorServer {
 					}
 					writeMsg(namesMsg);
 					break;
+					
+				case ColorMessage.GETID:
+					ColorMessage idMsg = new ColorMessage(ColorMessage.GETID, this.gameSession);
+					writeMsg(idMsg);
+					
 				default:
 					display("Default switch");
 					break;
@@ -395,9 +347,7 @@ public class ColorServer {
 			close();
 		}
 		
-		// try to close everything
 		private void close() {
-			// try to close the connection
 			try {
 				if(sOutput != null) sOutput.close();
 			}
@@ -412,19 +362,15 @@ public class ColorServer {
 			catch (Exception e) {}
 		}
 
-		//Write a String to the Client output stream
 		private boolean writeMsg(ColorMessage msg) {
 			display("Writing message to " + this.username + ": " + msg.getMessage());
-			// if Client is still connected send the message to it
 			if(!socket.isConnected()) {
 				close();
 				return false;
 			}
-			// write the message to the stream
 			try {
 				sOutput.writeObject(msg);
 			}
-			// if an error occurs, do not abort just inform the user
 			catch(IOException e) {
 				display("Error sending message to " + username);
 				display(e.toString());
