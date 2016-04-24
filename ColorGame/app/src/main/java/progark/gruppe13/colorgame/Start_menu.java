@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import progark.gruppe13.colorgame.util.States;
 
 
 /**
@@ -50,6 +51,31 @@ public class Start_menu extends GameState {
     // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_start_menu, container, false);
 
+        Button buttonStart = (Button) view.findViewById(R.id.buttonNewGame);
+        buttonStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onNewGameClicked();
+            }
+        });
+
+        Button buttonJoin = (Button) view.findViewById(R.id.buttonJoinGame);
+        buttonJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onJoinGameClicked();
+            }
+        });
+
+
         return view;
+    }
+
+    private void onJoinGameClicked() {
+        ((main)getActivity()).changeState(States.JOINGAME);
+    }
+
+    private void onNewGameClicked() {
+        ((main)getActivity()).changeState(States.NEW_GAME_MENU);
     }
 }

@@ -24,7 +24,6 @@
         android:layout_marginTop="30dp"
         android:id="@+id/buttonNewGame"
         android:text="@string/startMenuNewGame"
-        android:onClick="onNewClick"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -34,7 +33,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/buttonJoinGame"
         android:text="@string/startMenuJoinGame"
-        android:onClick="onJoinClick"
         android:layout_below="@+id/buttonNewGame"
         />
 

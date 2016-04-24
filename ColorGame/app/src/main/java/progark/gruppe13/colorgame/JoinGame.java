@@ -76,7 +76,13 @@ public class JoinGame extends GameState {
                 ((main)getActivity()).changeState(States.ENTERUSERNAME);
             }
             else{
-                ((main)getActivity()).makeToast("No such session ID");
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((main)getActivity()).makeToast("No such session ID");
+                    }
+                });
+
             }
         }
     }

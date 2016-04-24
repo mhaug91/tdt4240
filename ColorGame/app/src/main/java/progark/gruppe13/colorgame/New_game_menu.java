@@ -76,6 +76,8 @@ public class New_game_menu extends GameState {
         }
     }
 
+
+
     @Override
     public void serverCallback(ColorMessage cm){
         if (cm.getType() == ColorMessage.START){

@@ -101,12 +101,6 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
         }
     }
 
-    public void onNewClick(View v){
-        changeState(States.NEW_GAME_MENU);
-    }
-
-    public void onJoinClick(View v){changeState(States.JOINGAME);}
-
     public void makeToast(String toastText){
         Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
     }
