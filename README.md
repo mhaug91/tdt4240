@@ -1,8 +1,8 @@
+<img src="colorgamelogofat.png" alt="Mountain View" style="width:300px; height:auto">
+<hr>
+
 # tdt4240
 
-<img src="colorgamelogofat.png" alt="Mountain View" style="width:300px; height:auto">
-
-<hr>
 <h1>To run the game:</h1>
 
 <ul>
