@@ -1,6 +1,6 @@
 # tdt4240
 
-<img src="colorgamelogofat.png" alt="Mountain View" style="width:300px">
+<img src="colorgamelogofat.png" alt="Mountain View" style="width:300px; height:auto">
 
 <hr>
 <h1>To run the game:</h1>
@@ -14,7 +14,9 @@
 <li>In main.java, type your computer/server's ip-adress
 <li>Compile app to an android device</li>
 <li>Have fun!</li>
+</ul>
 
 <hr>
+
 ❤ Love from the dev-team ❤
 
