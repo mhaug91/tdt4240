@@ -20,4 +20,4 @@
 ❤ Love from the dev-team ❤
 
 <h3>Our humble presentation</h3>
-[![link to youtube video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+[![link to youtube video](https://img.youtube.com/vi/RfzBAsf25_8/0.jpg)](https://www.youtube.com/watch?v=RfzBAsf25_8)
