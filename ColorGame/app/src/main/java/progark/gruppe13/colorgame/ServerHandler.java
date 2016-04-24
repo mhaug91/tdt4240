@@ -21,6 +21,11 @@ public class ServerHandler{
 	private String server, username;
 	private int port;
 
+	private AsyncConnect aConnection;
+	private ListenFromServer aListen;
+
+	private boolean connected;
+
 	private GameState listener;
 
 
@@ -28,8 +33,12 @@ public class ServerHandler{
 		this.server = server;
 		this.port = port;
 		this.username = username;
-		new AsyncConnect().execute();
-		new ListenFromServer().execute();
+
+		this.aConnection = new AsyncConnect();
+		this.aListen = new ListenFromServer();
+		this.aConnection.execute();
+		this.aListen.execute();
+		this.connected = true;
 	}
 
 	public void setListener(GameState listener){
@@ -65,7 +74,14 @@ public class ServerHandler{
 	 * When something goes wrong
 	 * Close the Input/Output streams and disconnect not much to do in the catch clause
 	 */
-	private void disconnect() {
+	public void disconnect() {
+		ColorMessage clrMsg = new ColorMessage(ColorMessage.LOGOUT);
+		try {
+			sOutput.writeObject(clrMsg);
+		}
+		catch(IOException e) {
+			display("Exception writing to server: " + e);
+		}
 		try {
 			if(sInput != null) sInput.close();
 		}
@@ -79,6 +95,9 @@ public class ServerHandler{
 		}
 		catch(Exception e) {} // not much else I can do
 
+		this.aConnection.cancel(true);
+		this.aListen.cancel(true);
+		this.connected = false;
 	}
 
 	public void startGame(String username){
@@ -132,6 +151,9 @@ public class ServerHandler{
 		}
 	}
 
+
+
+
 	public void getUsernames(String gameID){
 		ColorMessage userMsg = new ColorMessage(ColorMessage.GETNAMES);
 		try {
@@ -159,6 +181,29 @@ public class ServerHandler{
 		}
 		catch(IOException e) {
 			display("Exception writing to server: " + e);
+		}
+	}
+
+	public void getGameSessionId(){
+		ColorMessage msg = new ColorMessage(ColorMessage.GETID);
+		try {
+			sOutput.writeObject(msg);
+		}
+		catch(IOException e) {
+			display("Exception writing to server: " + e);
+		}
+	}
+
+	public void connect(){
+		if (!this.connected){
+			this.aConnection = new AsyncConnect();
+			this.aListen = new ListenFromServer();
+			this.aConnection.execute();
+			this.aListen.execute();
+			this.connected = true;
+		}
+		else{
+			System.out.println("Connection error: Already connected");
 		}
 	}
 

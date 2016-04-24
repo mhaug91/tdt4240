@@ -12,5 +12,13 @@
     <string name="startMenuNewGame">Start new game</string>
     <string name="startMenuJoinGame">Join existing game</string>
     <string name="sessionIdHint">Enter session id</string>
-
+    <string name="enterUsernameHint">Enter username here...</string>
+    <string name="captureImageButton">Capture</string>
+    <string name="joinedSessionExplanation">You have connected to the session! Please enter a username to join the lobby</string>
+    <string name="confirmUsernameButton">Confirm Username</string>
+    <string name="joinGameButton">Join Game</string>
+    <string name="roundSummary">Round Summary</string>
+    <string name="startNewRoundButton">Start new round!</string>
+    <string name="playersInLobbyLabel">Players in lobby:</string>
+    <string name="exitGameButton">Exit game</string>
 </resources>

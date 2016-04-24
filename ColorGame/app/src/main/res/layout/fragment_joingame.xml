@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/sessionIdEdit"
         android:id="@+id/buttonJoinSession"
-        android:text="Join Game"/>
+        android:text="@string/joinGameButton"/>
 
 </RelativeLayout>

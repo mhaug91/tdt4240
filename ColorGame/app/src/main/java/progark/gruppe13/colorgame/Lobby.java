@@ -14,8 +14,9 @@ import java.util.ArrayList;
  */
 public class Lobby extends GameState {
 
-    TextView textList;
-    View view;
+    private TextView textList;
+    private View view;
+    private TextView sessionIdText;
 
     public static JoinGame newInstance() {
         JoinGame fragment = new JoinGame();
@@ -38,7 +39,8 @@ public class Lobby extends GameState {
 
         view = inflater.inflate(R.layout.fragment_lobby, container, false);
 
-        textList = (TextView) view.findViewById(R.id.usersInLobbyList);
+        sessionIdText = (TextView) view.findViewById(R.id.sessionIdFromServer);
+                textList = (TextView) view.findViewById(R.id.usersInLobbyList);
         Button startGameButton = (Button) view.findViewById(R.id.buttonStartGame);
         startGameButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -49,9 +51,12 @@ public class Lobby extends GameState {
                 }
         );
 
+        main.serverHandler.getGameSessionId();
         main.serverHandler.getUsernames("anything");
         return view;
     }
+
+
 
 
     public void onStartGameClick(){
@@ -76,6 +81,14 @@ public class Lobby extends GameState {
                     }
                 }
             });
+        }else if(cm.getType() == ColorMessage.GETID){
+            final String sessionIdString = cm.getMessage().get(0);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    sessionIdText.setText("Session ID: " + sessionIdString);
+                }
+            });
         }
         else if (cm.getType() == ColorMessage.BEGIN){
             if (cm.getMessage().get(0).equals("success")){
@@ -84,15 +97,4 @@ public class Lobby extends GameState {
         }
     }
 
-
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void onEnter() {
-
-    }
 }

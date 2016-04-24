@@ -12,13 +12,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.Toast;
 import progark.gruppe13.colorgame.util.States;
 
 public class main extends Activity implements GameState.OnFragmentInteractionListener {
     /**
      * Called when the activity is first created.
      */
-
+    private static int backPressedCounter = 0;
     private static final String SERVER_IP = "10.22.42.127";
     private static final int SERVER_PORT = 1502;
     private static final String DEFAULT_NAME = "Anonymous";
@@ -33,10 +34,26 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
         this.changeState(States.STARTMENU);
     }
 
+    @Override
+    public void onBackPressed() {
+        backPressedCounter++;
+        Toast.makeText(getApplicationContext(),"Press back button 3 times for start-menu", Toast.LENGTH_SHORT).show();
+        if (backPressedCounter==3){
+            returnToStartMenu();
+        }
+    }
+
+    public void returnToStartMenu() {
+        changeState(States.STARTMENU);
+        serverHandler.disconnect();
+        serverHandler.connect();
+    }
+
 
     public void changeState(States toState){
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        backPressedCounter=0;
 
         switch (toState){
             case STARTMENU:
@@ -117,24 +134,13 @@ public class main extends Activity implements GameState.OnFragmentInteractionLis
         return c; // returns null if camera is unavailable
     }
 
-    public void startMenu(){
-        changeState(States.STARTMENU);
-    }
+
     public void onNewClick(View v){
         changeState(States.NEW_GAME_MENU);
     }
 
-    public void onStartGameClick(View v){changeState(States.CAMERA_FRAGMENT_STATE);}
-
     public void onJoinClick(View v){changeState(States.JOINGAME);}
 
-
-
-    public void roundSummary(View v){changeState((States.ROUND_SUMMARY));}
-
-    public void onStartCameraActivityClick(View v){ changeState(States.CAMERA_STATE);}
-
-    //public void onJoinSessionClick(View v){changeState(States.LOBBY);}
 
     @Override
     public void onFragmentInteraction(Uri uri) {

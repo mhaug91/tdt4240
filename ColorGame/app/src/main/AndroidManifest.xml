@@ -24,15 +24,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".CameraActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="progark.gruppe13.colorgame.CameraActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

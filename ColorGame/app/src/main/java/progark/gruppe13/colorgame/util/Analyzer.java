@@ -12,14 +12,16 @@ import java.util.ArrayList;
 public class Analyzer {
 
     public static int scoreBitmap(Bitmap bitmap, int goalRed, int goalGreen, int goalBlue){
+        int PIXEL_STEP = 30;
+
         int imgH = bitmap.getHeight();
         int imgW = bitmap.getWidth();
         int score = 0;
         int maxLeeway = 13000;
         int pixelCount = 0;
 
-        for (int x = 0; x < imgW; x += 50) {
-            for (int y = 0; y < imgH ; y += 50) {
+        for (int x = 0; x < imgW; x += PIXEL_STEP) {
+            for (int y = 0; y < imgH ; y += PIXEL_STEP) {
                 int pixel = bitmap.getPixel(x,y);
                 int redValue = Color.red(pixel);
                 int blueValue = Color.blue(pixel);
@@ -33,7 +35,8 @@ public class Analyzer {
         }
         System.out.println(pixelCount);
         System.out.println("The score is: " + score/4);
-        return score/4;
+        pixelCount = pixelCount/100000;
+        return score/pixelCount;
     }
 
 

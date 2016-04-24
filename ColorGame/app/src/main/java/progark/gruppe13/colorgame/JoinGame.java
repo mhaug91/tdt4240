@@ -62,8 +62,6 @@ public class JoinGame extends GameState {
         String input = sessionEdit.getText().toString();
         Toast toast;
         if(input.matches("")){
-            toast = Toast.makeText(context, "Please insert a username to start a game, dude", Toast.LENGTH_LONG);
-            toast.show();
         }
         else{
             main.serverHandler.joinGame(input);
@@ -86,13 +84,5 @@ public class JoinGame extends GameState {
         }
     }
 
-    @Override
-    public void update() {
 
-    }
-
-    @Override
-    public void onEnter() {
-
-    }
 }

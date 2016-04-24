@@ -48,14 +48,14 @@ public class EnterUsername extends GameState {
         });
 
         userEdit = (EditText) view.findViewById(R.id.enterUsernameEdit);
-        /*userEdit.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userEdit.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             public void onFocusChange(View v, boolean hasFocus){
                 if(hasFocus)
                     userEdit.setHint("");
                 else
-                    userEdit.setHint("Your hint");
+                    userEdit.setHint(R.string.enterUserNameString);
             }
-        });*/
+        });
 
         return view;
 
@@ -66,7 +66,7 @@ public class EnterUsername extends GameState {
     public void onConfirmUsernameClick(){
         Context context = getActivity().getApplicationContext();
         String input = userEdit.getText().toString();
-        if(input.matches("")){
+        if(input.length()<1){
         }
         else{
             main.serverHandler.sendUsername(input);
@@ -88,13 +88,4 @@ public class EnterUsername extends GameState {
         }
     }
 
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void onEnter() {
-
-    }
 }

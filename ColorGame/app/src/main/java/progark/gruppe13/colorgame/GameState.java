@@ -12,9 +12,6 @@ public abstract class GameState extends Fragment {
     }
 
     private OnFragmentInteractionListener mListener;
-    public abstract void update();
-
-    public abstract void onEnter();
 
     @Override
     public void onAttach(Activity activity) {
@@ -33,12 +30,6 @@ public abstract class GameState extends Fragment {
         mListener = null;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

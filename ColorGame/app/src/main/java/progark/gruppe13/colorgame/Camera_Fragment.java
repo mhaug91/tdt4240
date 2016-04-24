@@ -166,43 +166,30 @@ public class Camera_Fragment extends GameState {
     }
 
     @Override
-    public void serverCallback(final ColorMessage cm){
+    public void serverCallback(final ColorMessage cm) {
         System.out.println("got message: ");
-        if (cm.getType() == ColorMessage.ROUND){
+        if (cm.getType() == ColorMessage.ROUND) {
             int r = Integer.parseInt(cm.getMessage().get(0));
             int g = Integer.parseInt(cm.getMessage().get(1));
             int b = Integer.parseInt(cm.getMessage().get(2));
             targetRed = r;
             targetGreen = g;
             targetBlue = b;
-            final int targetColorForUi = Color.rgb(r,g,b);
+            final int targetColorForUi = Color.rgb(r, g, b);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     cameraLayoutHolder.setBackgroundColor(targetColorForUi);
                 }
             });
-        }
-
-        else if (cm.getType() == ColorMessage.COLOR){
+        } else if (cm.getType() == ColorMessage.COLOR) {
             System.out.println();
-            if (cm.getMessage().get(0).equals("Success")){
-                ((main)getActivity()).changeState(States.ROUND_SUMMARY);
+            if (cm.getMessage().get(0).equals("Success")) {
+                ((main) getActivity()).changeState(States.ROUND_SUMMARY);
             }
         }
-    }
-
-
-    @Override
-    public void update() {
 
     }
-
-    @Override
-    public void onEnter() {
-
-    }
-
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
         @Override

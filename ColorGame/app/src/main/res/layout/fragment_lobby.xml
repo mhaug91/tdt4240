@@ -2,13 +2,15 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="progark.gruppe13.colorgame.Start_menu" android:paddingTop="25dp">
+                tools:context="progark.gruppe13.colorgame.Start_menu" android:paddingTop="25dp"
+                android:gravity="center_horizontal">
 
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
               android:text="#sessionID"
               android:id="@+id/sessionIdFromServer"
               android:paddingTop="25dp"
-              android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+              android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" android:layout_gravity="center"
+              android:textAlignment="center"/>
 
 
     <Button
@@ -19,17 +21,17 @@
         android:text="@string/startGameString"/>
 
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:text="Players in lobby:"
+              android:text="@string/playersInLobbyLabel"
               android:id="@+id/playersInLobbyText"
-              android:layout_below="@id/buttonStartGame" android:paddingTop="25dp" android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+              android:layout_below="@id/buttonStartGame" android:paddingTop="25dp" android:paddingLeft="10dp" android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
 
     <TextView
             android:id="@+id/usersInLobbyList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
-            android:layout_below="@id/playersInLobbyText" android:paddingTop="50dp" android:smoothScrollbar="true"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" android:textColor="#ff2955">
+            android:layout_below="@id/playersInLobbyText" android:smoothScrollbar="true"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" android:paddingLeft="10dp" android:textColor="#FA57CC">
 
     </TextView>
 

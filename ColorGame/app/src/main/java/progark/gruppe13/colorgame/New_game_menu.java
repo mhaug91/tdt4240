@@ -54,12 +54,20 @@ public class New_game_menu extends GameState {
                     }
                 }
         );
+        usernameEdit = (EditText) view.findViewById(R.id.editTextUsernameNewGame);
+        usernameEdit.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            public void onFocusChange(View v, boolean hasFocus){
+                if(hasFocus)
+                    usernameEdit.setHint("");
+                else
+                    usernameEdit.setHint(R.string.enterUserNameString);
+            }
+        });
         return view;
 
     }
 
     public void onNewGameClick(){
-        usernameEdit  = (EditText) view.findViewById(R.id.editTextUsernameNewGame);
         String username = usernameEdit.getText().toString();
         System.out.println("Dette skjer i new game menu WTFFFFF");
         main.serverHandler.startGame(username);
@@ -79,15 +87,5 @@ public class New_game_menu extends GameState {
     }
 
 
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void onEnter() {
-
-    }
 
 }
